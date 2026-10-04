@@ -86,7 +86,7 @@ export function Header() {
                   <Link
                     href={item.href}
                     aria-current={active ? "page" : undefined}
-                    className={`relative block px-3.5 py-2 font-display text-[0.98rem] font-semibold transition-colors ${
+                    className={`nav-link relative block rounded-xl px-3.5 py-2 font-display text-[0.98rem] font-semibold transition-colors ${
                       active ? "text-blue" : "text-navy hover:text-blue"
                     }`}
                   >

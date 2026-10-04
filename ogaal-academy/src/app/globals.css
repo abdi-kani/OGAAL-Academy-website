@@ -444,6 +444,45 @@ li:hover .ai [class*="ai-"],
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+.spin-slow-rev {
+  animation: spin 45s linear infinite reverse;
+}
+
+/* Hero logo: sonar pulses, gentle bob and a sheen across the shield */
+.sonar {
+  animation: sonar 3.2s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+}
+@keyframes sonar {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  100% { transform: scale(1.75); opacity: 0; }
+}
+.logo-bob {
+  animation: logo-bob 6s ease-in-out infinite;
+}
+@keyframes logo-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.logo-sheen {
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+  background: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / 0.75) 50%, transparent 65%) no-repeat;
+  background-size: 250% 100%;
+  background-position: 150% 0;
+  animation: sheen 5s ease-in-out 1.2s infinite;
+}
+@keyframes sheen {
+  0% { background-position: 150% 0; }
+  40%, 100% { background-position: -60% 0; }
+}
+
+/* Desktop nav: soft highlight instead of the boxed focus outline */
+.nav-link:focus-visible {
+  outline: none;
+  background: var(--color-blue-50);
+  color: var(--color-blue);
+}
+
 .pulse-ring {
   position: relative;
 }
