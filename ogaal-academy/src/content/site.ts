@@ -111,6 +111,7 @@ export const hero = {
   floatingLabels: [
     { icon: "graduation", text: "Safety-focused education" },
     { icon: "pin", text: "Mogadishu, Somalia" },
+    { icon: "target", text: "Supervised safety training" },
   ],
 } as const;
 
@@ -195,7 +196,7 @@ export const about = {
     intro: "Every part of the programme is designed to build safety knowledge, sound judgment, and accountability.",
     items: [
       { icon: "presentation", title: "Structured classroom education", text: "Clear, organised lessons that build understanding of safety principles step by step." },
-      { icon: "eye", title: "Supervised safety learning", text: "Practical learning takes place under instructor supervision in a controlled environment." },
+      { icon: "safetyGlasses", title: "Supervised safety learning", text: "Practical learning takes place under instructor supervision in a controlled environment." },
       { icon: "clipboard", title: "Assessment of understanding", text: "Participants demonstrate what they have learned through the academy’s assessment process." },
       { icon: "handshake", title: "Responsible conduct", text: "Respect for others, lawful behaviour, and self-discipline are expected throughout." },
       { icon: "refresh", title: "Continuous improvement", text: "We review our training regularly to keep standards clear and relevant." },
@@ -213,13 +214,27 @@ export const trainingPage = {
 };
 
 export const training = [
-  { slug: "safety-education", icon: "shield", title: "Firearm Safety Education", text: "Understand safety principles and the importance of preventing accidents." },
+  { slug: "safety-education", icon: "pistol", title: "Firearm Safety Education", text: "Understand safety principles and the importance of preventing accidents." },
   { slug: "responsible-ownership", icon: "userCheck", title: "Responsible Ownership", text: "Explore accountability, sound judgment, and consideration for others." },
-  { slug: "storage-transportation", icon: "lock", title: "Safe Storage and Transportation", text: "Learn the principles of secure storage, preventing unauthorised access, and responsible transportation." },
+  { slug: "storage-transportation", icon: "gunLock", title: "Safe Storage and Transportation", text: "Learn the principles of secure storage, preventing unauthorised access, and responsible transportation." },
   { slug: "legal-ethical", icon: "scale", title: "Legal and Ethical Awareness", text: "Develop awareness of applicable laws, regulations, and personal responsibilities." },
-  { slug: "supervised-exercises", icon: "eye", title: "Supervised Safety Exercises", text: "Participate in structured safety education under instructor supervision." },
+  { slug: "supervised-exercises", icon: "target", title: "Supervised Safety Exercises", text: "Participate in structured safety education under instructor supervision." },
   { slug: "assessment-certification", icon: "award", title: "Assessment and Certification", text: "Demonstrate understanding through the academy’s assessment process." },
   { slug: "organisational-refresher", icon: "building", title: "Organisational and Refresher Training", text: "Enquire about education for your team or refresher learning to reinforce safety awareness." },
+] as const;
+
+/** Topics shown in the scrolling band on the home page (all taken from the two-day programme). */
+export const safetyTopics = [
+  { icon: "pistol", text: "Firearm safety" },
+  { icon: "rifle", text: "Firearm identification" },
+  { icon: "clipboard", text: "Safety rules and procedures" },
+  { icon: "gunSafe", text: "Safe storage" },
+  { icon: "gunLock", text: "Responsible transportation" },
+  { icon: "scale", text: "Legal responsibilities" },
+  { icon: "target", text: "Practical safety exercises" },
+  { icon: "earProtection", text: "Supervised demonstrations" },
+  { icon: "safetyGlasses", text: "Safety assessment" },
+  { icon: "award", text: "Certification" },
 ] as const;
 
 export const programme = {
@@ -229,22 +244,22 @@ export const programme = {
       label: "Day One",
       title: "Safety Foundations",
       items: [
-        "Introduction to firearm safety.",
-        "Firearm identification and awareness.",
-        "Legal responsibilities.",
-        "Safety rules and procedures.",
-        "Safe storage and transportation principles.",
+        { icon: "shield", text: "Introduction to firearm safety." },
+        { icon: "rifle", text: "Firearm identification and awareness." },
+        { icon: "scale", text: "Legal responsibilities." },
+        { icon: "clipboard", text: "Safety rules and procedures." },
+        { icon: "gunSafe", text: "Safe storage and transportation principles." },
       ],
     },
     {
       label: "Day Two",
       title: "Supervised Learning and Assessment",
       items: [
-        "Practical safety exercises.",
-        "Supervised safety demonstrations.",
-        "Safety assessment.",
-        "Course review.",
-        "Certification for successful participants.",
+        { icon: "target", text: "Practical safety exercises." },
+        { icon: "earProtection", text: "Supervised safety demonstrations." },
+        { icon: "badge", text: "Safety assessment." },
+        { icon: "refresh", text: "Course review." },
+        { icon: "award", text: "Certification for successful participants." },
       ],
     },
   ],

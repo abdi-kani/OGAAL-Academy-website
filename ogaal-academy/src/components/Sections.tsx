@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { ArrowRight, CalendarDays, Check } from "lucide-react";
-import { about, faqs, programme, training } from "@/content/site";
+import { ArrowRight, CalendarDays } from "lucide-react";
+import { about, faqs, programme, safetyTopics, training } from "@/content/site";
 import { Accordion } from "./Accordion";
 import { Icon, type IconName } from "./Icon";
 import { Reveal } from "./Reveal";
@@ -78,11 +78,11 @@ export function ProgrammeDays() {
             </div>
             <ul className="grid gap-3 px-7 py-6" role="list">
               {d.items.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-navy">
-                  <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-blue-50 text-blue" aria-hidden="true">
-                    <Check size={14} strokeWidth={2.5} />
+                <li key={item.text} className="group/item flex items-center gap-3 text-navy">
+                  <span className="icon-tile icon-tile-sm" aria-hidden="true">
+                    <Icon name={item.icon as IconName} size={18} />
                   </span>
-                  {item}
+                  {item.text}
                 </li>
               ))}
             </ul>
@@ -135,6 +135,35 @@ export function ValuesGrid() {
         </Reveal>
       ))}
     </ul>
+  );
+}
+
+/* ---------------- Scrolling band of programme topics ---------------- */
+export function SafetyMarquee() {
+  const row = (copy: number) => (
+    <ul className="marquee-row" role="list" aria-hidden={copy > 0 || undefined}>
+      {safetyTopics.map((t) => (
+        <li key={t.text} className="marquee-pill">
+          <span className="icon-tile icon-tile-sm">
+            <Icon name={t.icon} size={18} live />
+          </span>
+          {t.text}
+        </li>
+      ))}
+    </ul>
+  );
+  return (
+    <section aria-label="Topics covered in training" className="py-12 lg:py-16">
+      <Reveal className="container-x">
+        <p className="eyebrow">Covered in training</p>
+      </Reveal>
+      <div className="marquee mt-6">
+        <div className="marquee-track">
+          {row(0)}
+          {row(1)}
+        </div>
+      </div>
+    </section>
   );
 }
 

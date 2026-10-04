@@ -16,7 +16,7 @@ import { HeroArt } from "@/components/HeroArt";
 import { Icon3D } from "@/components/Icon3D";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import { ClosingCta, StepsRow, TrainingCard } from "@/components/Sections";
+import { ClosingCta, SafetyMarquee, StepsRow, TrainingCard } from "@/components/Sections";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -79,8 +79,10 @@ export default function HomePage() {
         </div>
       </section>
 
+      <SafetyMarquee />
+
       {/* ---------------- About preview ---------------- */}
-      <section aria-labelledby="about-title" className="py-20 lg:py-28">
+      <section aria-labelledby="about-title" className="pt-8 pb-20 lg:pt-12 lg:pb-28">
         <div className="container-x">
           <SectionHeading id="about-title" lead={aboutPreview.heading.lead} accent={aboutPreview.heading.accent} align="center" />
           <div className="mt-14 grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">

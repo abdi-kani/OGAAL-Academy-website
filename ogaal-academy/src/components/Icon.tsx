@@ -19,6 +19,7 @@ import {
   Users,
   type LucideProps,
 } from "lucide-react";
+import { ArmsIcon, isArmsIcon, type ArmsIconName } from "./ArmsIcon";
 
 const icons = {
   shield: ShieldCheck,
@@ -41,10 +42,14 @@ const icons = {
   people: Users,
 } as const;
 
-export type IconName = keyof typeof icons;
+export type IconName = keyof typeof icons | ArmsIconName;
 
-/** Consistent outline icons (Lucide, 1.75 stroke). */
-export function Icon({ name, ...props }: { name: IconName } & LucideProps) {
+/** Consistent outline icons: Lucide (1.75 stroke) plus the animated firearm-safety set. */
+export function Icon({ name, live, ...props }: { name: IconName; live?: boolean } & LucideProps) {
+  if (isArmsIcon(name)) {
+    const { size, strokeWidth, className, style } = props;
+    return <ArmsIcon name={name} live={live} size={size} strokeWidth={strokeWidth} className={className} style={style} />;
+  }
   const Cmp = icons[name];
   return <Cmp aria-hidden="true" strokeWidth={1.75} size={24} {...props} />;
 }

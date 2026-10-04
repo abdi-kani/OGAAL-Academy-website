@@ -21,7 +21,7 @@ export function PageHeader({
   const a = art.icons[icon];
   return (
     <section className="sky relative overflow-hidden">
-      <svg aria-hidden="true" className="pointer-events-none absolute top-0 right-0 h-full w-[60%] text-blue/10" viewBox="0 0 600 400" preserveAspectRatio="xMaxYMid slice">
+      <svg aria-hidden="true" className="ripple pointer-events-none absolute top-0 right-0 h-full w-[60%] text-blue/10" viewBox="0 0 600 400" preserveAspectRatio="xMaxYMid slice">
         <circle cx="520" cy="200" r="260" fill="none" stroke="currentColor" strokeWidth="2" />
         <circle cx="520" cy="200" r="190" fill="none" stroke="currentColor" strokeWidth="2" />
         <circle cx="520" cy="200" r="120" fill="none" stroke="currentColor" strokeWidth="2" />
