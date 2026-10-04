@@ -1,0 +1,282 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>html,body{margin:0;background:transparent}canvas{display:block}</style>
+<script type="importmap">
+{ "imports": { "three": "/node_modules/three/build/three.module.js", "three/addons/": "/node_modules/three/examples/jsm/" } }
+</script>
+</head>
+<body>
+<script type="module">
+import * as THREE from "three";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+
+const params = new URLSearchParams(location.search);
+const SCENE = params.get("scene") || "hero";
+const W = +(params.get("w") || 1400), H = +(params.get("h") || 1200);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1);
+renderer.setSize(W, H);
+renderer.setClearColor(0x000000, 0);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.92;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.5;
+
+/* ---------- Materials ---------- */
+const BLUE = 0x0a4be0;
+const mBlue = new THREE.MeshPhysicalMaterial({ color: BLUE, metalness: 0.25, roughness: 0.22, clearcoat: 1, clearcoatRoughness: 0.08 });
+const mBlueLight = new THREE.MeshPhysicalMaterial({ color: 0x1660f2, metalness: 0.2, roughness: 0.3, clearcoat: 1, clearcoatRoughness: 0.12 });
+const mBlueDeep = new THREE.MeshPhysicalMaterial({ color: 0x0636a8, metalness: 0.3, roughness: 0.3, clearcoat: 0.8 });
+const mWhite = new THREE.MeshPhysicalMaterial({ color: 0xffffff, metalness: 0.0, roughness: 0.18, clearcoat: 1, clearcoatRoughness: 0.06 });
+const mPodium = new THREE.MeshPhysicalMaterial({ color: 0xdbe4f3, metalness: 0.0, roughness: 0.35, clearcoat: 0.6 });
+const mSilver = new THREE.MeshPhysicalMaterial({ color: 0xe9eef7, metalness: 1.0, roughness: 0.12 });
+function pageTopTexture() {
+  // faint "text lines" for the open pages
+  const c = document.createElement("canvas"); c.width = 512; c.height = 512;
+  const g = c.getContext("2d");
+  g.fillStyle = "#ffffff"; g.fillRect(0, 0, 512, 512);
+  g.fillStyle = "rgba(120,140,175,0.35)";
+  for (let y = 60; y < 470; y += 26) {
+    const len = 300 + ((y * 37) % 90);
+    g.fillRect(70, y, len, 7);
+  }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  return t;
+}
+const mPaper = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.55, map: pageTopTexture() });
+
+// Page-edge texture (thin horizontal lines)
+function pageEdgeTexture() {
+  const c = document.createElement("canvas"); c.width = 64; c.height = 512;
+  const g = c.getContext("2d");
+  g.fillStyle = "#fbfcff"; g.fillRect(0, 0, 64, 512);
+  for (let y = 0; y < 512; y += 9) { g.fillStyle = "rgba(160,175,200,0.55)"; g.fillRect(0, y, 64, 1.5); }
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+const mPageEdge = new THREE.MeshStandardMaterial({ map: pageEdgeTexture(), roughness: 0.8 });
+
+/* ---------- Builders ---------- */
+function shieldShape(s = 1) {
+  const sh = new THREE.Shape();
+  sh.moveTo(0, 1.55 * s);
+  sh.bezierCurveTo(0.45 * s, 1.32 * s, 0.95 * s, 1.22 * s, 1.3 * s, 1.2 * s);
+  sh.lineTo(1.3 * s, 0.25 * s);
+  sh.bezierCurveTo(1.3 * s, -0.75 * s, 0.7 * s, -1.35 * s, 0, -1.7 * s);
+  sh.bezierCurveTo(-0.7 * s, -1.35 * s, -1.3 * s, -0.75 * s, -1.3 * s, 0.25 * s);
+  sh.lineTo(-1.3 * s, 1.2 * s);
+  sh.bezierCurveTo(-0.95 * s, 1.22 * s, -0.45 * s, 1.32 * s, 0, 1.55 * s);
+  return sh;
+}
+function checkShape() {
+  const c = new THREE.Shape();
+  c.moveTo(-0.62, 0.05);
+  c.lineTo(-0.22, -0.38);
+  c.lineTo(0.68, 0.62);
+  c.lineTo(0.44, 0.84);
+  c.lineTo(-0.22, 0.1);
+  c.lineTo(-0.4, 0.3);
+  c.closePath();
+  return c;
+}
+function makeShield() {
+  const g = new THREE.Group();
+  const outer = new THREE.Mesh(
+    new THREE.ExtrudeGeometry(shieldShape(1), { depth: 0.34, bevelEnabled: true, bevelThickness: 0.14, bevelSize: 0.12, bevelSegments: 10, curveSegments: 48 }),
+    mBlue,
+  );
+  outer.castShadow = true;
+  g.add(outer);
+  // inner rim (silver line) + inner face
+  const rim = new THREE.Mesh(
+    new THREE.ExtrudeGeometry(shieldShape(0.86), { depth: 0.08, bevelEnabled: true, bevelThickness: 0.04, bevelSize: 0.04, bevelSegments: 6, curveSegments: 48 }),
+    mSilver,
+  );
+  rim.position.z = 0.44;
+  g.add(rim);
+  const inner = new THREE.Mesh(
+    new THREE.ExtrudeGeometry(shieldShape(0.8), { depth: 0.12, bevelEnabled: true, bevelThickness: 0.06, bevelSize: 0.05, bevelSegments: 8, curveSegments: 48 }),
+    mBlueLight,
+  );
+  inner.position.z = 0.46;
+  g.add(inner);
+  const check = new THREE.Mesh(
+    new THREE.ExtrudeGeometry(checkShape(), { depth: 0.18, bevelEnabled: true, bevelThickness: 0.08, bevelSize: 0.07, bevelSegments: 10 }),
+    mWhite,
+  );
+  check.position.set(0, -0.05, 0.62);
+  check.scale.setScalar(1.05);
+  check.castShadow = true;
+  g.add(check);
+  return g;
+}
+
+function pageProfile(dir) {
+  // cross-section of one side's page block (x outward from spine)
+  const s = new THREE.Shape();
+  s.moveTo(0, 0);
+  s.lineTo(2.05 * dir, 0.02);
+  s.lineTo(2.05 * dir, 0.3);
+  s.bezierCurveTo(1.4 * dir, 0.62, 0.45 * dir, 0.78, 0.04 * dir, 0.14);
+  s.closePath();
+  return s;
+}
+function makeBook() {
+  const g = new THREE.Group();
+  const depth = 2.7;
+  // cover (blue) slightly larger, under the pages
+  const coverGeo = new RoundedBoxGeometry(4.5, 0.09, depth + 0.22, 4, 0.04);
+  const cover = new THREE.Mesh(coverGeo, mBlueDeep);
+  cover.position.y = -0.03;
+  cover.castShadow = true; cover.receiveShadow = true;
+  g.add(cover);
+  for (const dir of [1, -1]) {
+    const geo = new THREE.ExtrudeGeometry(pageProfile(dir), { depth, bevelEnabled: false, curveSegments: 32 });
+    geo.translate(0, 0, -depth / 2);
+    // remap UVs on the curved top so one page = one texture tile (u across page, v along depth)
+    const pos = geo.attributes.position, uv = geo.attributes.uv;
+    for (let i = 0; i < uv.count; i++) {
+      uv.setXY(i, Math.abs(pos.getX(i)) / 2.05 * (dir > 0 ? 1 : -1), (pos.getZ(i) + depth / 2) / depth);
+    }
+    uv.needsUpdate = true;
+    // groups: 0 = caps (page edges seen from front/back), 1 = sides (top surface & outer edge)
+    const m = new THREE.Mesh(geo, [mPageEdge, mPaper]);
+    m.position.y = 0.03;
+    m.castShadow = true; m.receiveShadow = true;
+    g.add(m);
+  }
+  // spine shadow line
+  const spine = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, depth, 12), mBlueDeep);
+  spine.rotation.x = Math.PI / 2; spine.position.y = 0.06;
+  g.add(spine);
+  return g;
+}
+
+function makeStar(r = 0.45, depth = 0.16) {
+  const s = new THREE.Shape();
+  for (let i = 0; i < 10; i++) {
+    const a = (i / 10) * Math.PI * 2 + Math.PI / 2;
+    const rr = i % 2 === 0 ? r : r * 0.45;
+    const x = Math.cos(a) * rr, y = Math.sin(a) * rr;
+    i === 0 ? s.moveTo(x, y) : s.lineTo(x, y);
+  }
+  s.closePath();
+  return new THREE.Mesh(new THREE.ExtrudeGeometry(s, { depth, bevelEnabled: true, bevelThickness: 0.06, bevelSize: 0.04, bevelSegments: 6 }), mBlue);
+}
+
+function sphere(r, mat) { const m = new THREE.Mesh(new THREE.SphereGeometry(r, 64, 48), mat); m.castShadow = true; return m; }
+
+function lights(intensity = 1) {
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xb9c9e6, 0.55 * intensity));
+  const key = new THREE.DirectionalLight(0xffffff, 2.6 * intensity);
+  key.position.set(-4, 9, 7);
+  key.castShadow = true;
+  key.shadow.mapSize.set(2048, 2048);
+  key.shadow.camera.left = -7; key.shadow.camera.right = 7; key.shadow.camera.top = 7; key.shadow.camera.bottom = -7;
+  key.shadow.radius = 8; key.shadow.bias = -0.0005;
+  scene.add(key);
+  const rim = new THREE.DirectionalLight(0xbcd4ff, 1.2 * intensity);
+  rim.position.set(6, 3, -4);
+  scene.add(rim);
+}
+
+let camera;
+
+if (SCENE === "hero") {
+  lights();
+  camera = new THREE.PerspectiveCamera(30, W / H, 0.1, 100);
+  camera.position.set(0, 2.4, 15.5);
+  camera.lookAt(0, 1.05, 0);
+
+  // Podium: two tiers with a blue band
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(3.6, 3.7, 0.42, 128), mPodium);
+  base.position.y = -1.3; base.receiveShadow = true; base.castShadow = true;
+  scene.add(base);
+  const band = new THREE.Mesh(new THREE.CylinderGeometry(3.08, 3.08, 0.07, 128), mBlue);
+  band.position.y = -1.05;
+  scene.add(band);
+  const top = new THREE.Mesh(new THREE.CylinderGeometry(3.0, 3.05, 0.34, 128), mPodium);
+  top.position.y = -0.88; top.receiveShadow = true; top.castShadow = true;
+  scene.add(top);
+
+  const book = makeBook();
+  book.position.set(0, -0.5, 0.45);
+  book.rotation.y = -0.08;
+  book.rotation.x = 0.55;
+  scene.add(book);
+
+  const shield = makeShield();
+  shield.position.set(0, 2.15, 0.2);
+  shield.rotation.set(-0.04, -0.32, 0.04);
+  scene.add(shield);
+
+  // Orbital ring
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(3.15, 0.05, 32, 256), mSilver);
+  ring.position.set(0, 2.0, 0.2);
+  ring.rotation.set(1.22, 0.18, -0.38);
+  scene.add(ring);
+  // Spheres riding the ring (place by parametric angle in ring space)
+  const ringPts = [0.15, 2.35, 3.2, 4.75];
+  const sizes = [0.3, 0.26, 0.34, 0.2];
+  ringPts.forEach((a, i) => {
+    const p = new THREE.Vector3(Math.cos(a) * 3.15, Math.sin(a) * 3.15, 0).applyEuler(ring.rotation).add(ring.position);
+    const s = sphere(sizes[i], mBlue);
+    s.position.copy(p);
+    scene.add(s);
+  });
+  // free-floating spheres
+  [[-3.1, 3.8, -1, 0.17, mSilver], [2.3, 0.2, 1.2, 0.3, mSilver], [-3.4, 0.6, 0.8, 0.2, mBlue], [3.3, 4.2, -0.5, 0.14, mBlue]].forEach(([x, y, z, r, m]) => {
+    const s = sphere(r, m); s.position.set(x, y, z); scene.add(s);
+  });
+  const star = makeStar(0.5, 0.18);
+  star.position.set(3.1, 2.6, 0.4);
+  star.rotation.set(0.1, -0.5, 0.15);
+  scene.add(star);
+} else if (SCENE === "shield") {
+  lights(1.05);
+  camera = new THREE.PerspectiveCamera(28, 1, 0.1, 100);
+  camera.position.set(0, 0.2, 9.2);
+  camera.lookAt(0, -0.05, 0);
+  const s = makeShield(); s.rotation.set(0, -0.28, 0); s.position.y = 0.0; scene.add(s);
+} else if (SCENE === "book") {
+  lights(1.05);
+  camera = new THREE.PerspectiveCamera(28, 1, 0.1, 100);
+  camera.position.set(0, 6.2, 7.2);
+  camera.lookAt(0, 0.1, 0);
+  const b = makeBook(); b.rotation.y = -0.35; scene.add(b);
+} else if (SCENE === "people") {
+  lights(1.05);
+  camera = new THREE.PerspectiveCamera(28, 1, 0.1, 100);
+  camera.position.set(0, 1.4, 10);
+  camera.lookAt(0, 0.35, 0);
+  function person(scale, mat) {
+    const g = new THREE.Group();
+    const head = sphere(0.5, mat); head.position.y = 1.15; g.add(head);
+    const body = new THREE.Mesh(new THREE.SphereGeometry(0.95, 64, 32, 0, Math.PI * 2, 0, Math.PI / 2), mat);
+    body.scale.set(1, 0.9, 0.75); body.position.y = -0.35; g.add(body);
+    const baseDisc = new THREE.Mesh(new THREE.CylinderGeometry(0.95, 0.95, 0.06, 64), mat);
+    baseDisc.scale.set(1, 1, 0.75); baseDisc.position.y = -0.35; g.add(baseDisc);
+    g.scale.setScalar(scale);
+    return g;
+  }
+  const back1 = person(0.82, mBlueLight); back1.position.set(-1.25, 0.05, -0.6); scene.add(back1);
+  const back2 = person(0.82, mBlueLight); back2.position.set(1.25, 0.05, -0.6); scene.add(back2);
+  const front = person(1.0, mBlue); front.position.set(0, -0.15, 0.4); scene.add(front);
+}
+
+renderer.render(scene, camera);
+window.__done = true;
+</script>
+</body>
+</html>

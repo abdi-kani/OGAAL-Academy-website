@@ -1,0 +1,270 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand palette (from the brief) */
+  --color-blue: #0755e9;
+  --color-blue-600: #0647c4;
+  --color-blue-700: #053aa3;
+  --color-blue-50: #eaf1fe;
+  --color-blue-100: #d6e4fd;
+  --color-navy: #081b3a;
+  --color-light: #f4f7fc;
+  --color-body: #53627a;
+  --color-line: #e2e9f4;
+  --color-ink: #081b3a;
+
+  --font-display: "Manrope Variable", "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: "Inter Variable", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Fraunces Variable", "Fraunces", Georgia, "Times New Roman", serif;
+
+  --shadow-soft: 0 1px 2px rgb(8 27 58 / 0.04), 0 10px 30px -14px rgb(8 27 58 / 0.18);
+  --shadow-lift: 0 2px 6px rgb(8 27 58 / 0.05), 0 24px 48px -20px rgb(7 85 233 / 0.32);
+  --shadow-blue: 0 10px 24px -10px rgb(7 85 233 / 0.6);
+
+  --radius-card: 1.25rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 6rem;
+  }
+  body {
+    background: #ffffff;
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-navy);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    font-weight: 800;
+    text-wrap: balance;
+  }
+  ::selection {
+    background: var(--color-blue-100);
+    color: var(--color-navy);
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-blue);
+    outline-offset: 3px;
+    border-radius: 8px;
+  }
+  .on-dark :focus-visible {
+    outline-color: #ffffff;
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 78rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .container-x {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Small caps eyebrow with a leading blue dash, as in the reference */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9rem;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-navy);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 2.25rem;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--color-blue);
+  }
+  .eyebrow-plain::before {
+    display: none;
+  }
+  .on-dark .eyebrow {
+    color: #ffffff;
+  }
+  .on-dark .eyebrow::before {
+    background: #ffffff;
+  }
+
+  /* Editorial serif section titles with a blue accent word */
+  .section-title {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    font-variation-settings: "opsz" 96;
+  }
+  .accent {
+    color: var(--color-blue);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3.25rem;
+    padding: 0.8rem 1.6rem;
+    border-radius: 0.9rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.2;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .btn-primary {
+    background: linear-gradient(180deg, #1665f5 0%, var(--color-blue) 55%, var(--color-blue-600) 100%);
+    color: #fff;
+    box-shadow: var(--shadow-blue);
+  }
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 30px -12px rgb(7 85 233 / 0.7);
+  }
+  .btn-outline {
+    border: 1.5px solid var(--color-navy);
+    color: var(--color-navy);
+    background: rgb(255 255 255 / 0.7);
+  }
+  .btn-outline:hover {
+    background: var(--color-navy);
+    color: #fff;
+  }
+  .btn-pill {
+    border-radius: 999px;
+  }
+  .on-dark .btn-outline {
+    color: #fff;
+    border-color: rgb(255 255 255 / 0.6);
+    background: transparent;
+  }
+  .on-dark .btn-outline:hover {
+    background: #fff;
+    color: var(--color-navy);
+  }
+  .btn-white {
+    background: #fff;
+    color: var(--color-blue);
+    box-shadow: 0 10px 24px -12px rgb(0 0 0 / 0.35);
+  }
+  .btn-white:hover {
+    transform: translateY(-1px);
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-soft);
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease,
+      border-color 0.25s ease;
+  }
+  .card-hover:hover,
+  .card-hover:focus-within {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lift);
+    border-color: var(--color-blue-100);
+  }
+
+  .icon-tile {
+    display: inline-grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 1rem;
+    background: var(--color-blue-50);
+    color: var(--color-blue);
+    flex-shrink: 0;
+  }
+  /* Soft, raised tile for the 3D icons */
+  .icon-3d {
+    display: grid;
+    place-items: center;
+    width: 5.25rem;
+    height: 5.25rem;
+    border-radius: 1.4rem;
+    background: linear-gradient(160deg, #ffffff 0%, #eef3fd 100%);
+    box-shadow:
+      inset 0 1px 0 #fff,
+      0 12px 24px -12px rgb(7 85 233 / 0.35),
+      0 0 0 1px rgb(226 233 244 / 0.9);
+    flex-shrink: 0;
+  }
+
+  .rule {
+    display: block;
+    width: 3rem;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--color-blue);
+  }
+
+  /* Pale blue atmospheric background with soft architectural arcs */
+  .sky {
+    background:
+      radial-gradient(55rem 32rem at 78% 30%, rgb(214 228 253 / 0.9), transparent 62%),
+      radial-gradient(40rem 26rem at 8% 0%, rgb(234 241 254 / 0.95), transparent 60%),
+      linear-gradient(180deg, #f7f9fe 0%, #eef3fc 100%);
+  }
+  .navy-panel {
+    background:
+      radial-gradient(50rem 26rem at 85% 0%, rgb(7 85 233 / 0.55), transparent 60%),
+      radial-gradient(30rem 20rem at 0% 100%, rgb(7 85 233 / 0.35), transparent 60%),
+      var(--color-navy);
+  }
+}
+
+/* ---------- Scroll reveal (only when JS is running and motion is allowed) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .js [data-reveal][data-visible="true"] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
