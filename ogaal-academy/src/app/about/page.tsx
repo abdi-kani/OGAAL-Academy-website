@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
-import { Eye, Target } from "lucide-react";
-import { about, closingCta, photos } from "@/content/site";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { about, art, photos } from "@/content/site";
+import { AboutHeroArt } from "@/components/AboutHeroArt";
 import { Icon, type IconName } from "@/components/Icon";
-import { PageHeader } from "@/components/PageHeader";
 import { PhotoPanel } from "@/components/PhotoPanel";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import { ClosingCta, ValuesGrid } from "@/components/Sections";
+import { ValuesGrid } from "@/components/Sections";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -17,21 +19,55 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function AboutPage() {
+  const book = art.icons.book;
+
   return (
     <>
-      <PageHeader crumb="About Us" eyebrow="About Us" title={about.heading} intro={<p>{about.intro[0]}</p>} icon="book" />
+      {/* ---------------- Hero ---------------- */}
+      <section aria-labelledby="about-hero-title" className="sky relative overflow-hidden">
+        <svg aria-hidden="true" className="ripple pointer-events-none absolute top-0 right-0 h-full w-[60%] text-blue/10" viewBox="0 0 600 400" preserveAspectRatio="xMaxYMid slice">
+          <circle cx="520" cy="200" r="260" fill="none" stroke="currentColor" strokeWidth="2" />
+          <circle cx="520" cy="200" r="190" fill="none" stroke="currentColor" strokeWidth="2" />
+          <circle cx="520" cy="200" r="120" fill="none" stroke="currentColor" strokeWidth="2" />
+        </svg>
+        <div className="container-x relative grid items-center gap-8 py-14 sm:py-16 lg:grid-cols-[1fr_1fr] lg:gap-6 lg:py-20">
+          <Reveal>
+            <p className="eyebrow">{about.hero.eyebrow}</p>
+            <h1 id="about-hero-title" className="mt-6 text-[2.6rem] leading-[1.04] tracking-[-0.045em] sm:text-6xl lg:text-[3.6rem]">
+              {about.hero.headingLines.map((l) => (
+                <span key={l} className="block">
+                  {l}
+                </span>
+              ))}
+            </h1>
+            <p className="mt-6 max-w-lg text-lg sm:text-xl">{about.hero.text}</p>
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <Link href={about.hero.primary.href} className="btn btn-primary">
+                {about.hero.primary.label}
+                <ArrowRight size={18} aria-hidden="true" />
+              </Link>
+              <a href={about.hero.secondary.href} className="btn btn-outline !border-blue !text-blue hover:!bg-blue hover:!text-white">
+                {about.hero.secondary.label}
+              </a>
+            </div>
+          </Reveal>
+          <Reveal delay={120}>
+            <AboutHeroArt />
+          </Reveal>
+        </div>
+      </section>
 
-      {/* Introduction */}
-      <section aria-label="Introduction" className="py-20 lg:py-28">
+      {/* ---------------- Who we are ---------------- */}
+      <section id="who-we-are" aria-labelledby="who-title" className="scroll-mt-24 py-20 lg:py-28">
         <div className="container-x grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
           <Reveal>
             <p className="eyebrow">Who we are</p>
-            <div className="mt-6 space-y-5 text-lg leading-relaxed sm:text-xl">
-              {about.intro.map((p, i) => (
-                <p key={i} className={i === 0 ? "font-display font-semibold text-navy" : ""}>
-                  {p}
-                </p>
-              ))}
+            <h2 id="who-title" className="mt-5 text-3xl sm:text-[2.6rem]">
+              {about.whoHeading}
+            </h2>
+            <div className="mt-6 space-y-5 text-lg leading-relaxed">
+              <p>{about.intro[1]}</p>
+              <p>{about.intro[0]}</p>
             </div>
           </Reveal>
           <Reveal delay={100}>
@@ -40,25 +76,28 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Mission & vision */}
-      <section aria-label="Mission and vision" className="bg-light py-20 lg:py-24">
+      {/* ---------------- Mission & vision ---------------- */}
+      <section aria-label="Mission and vision" className="pb-20 lg:pb-28">
         <div className="container-x grid gap-6 md:grid-cols-2">
           {[
-            { icon: Target, title: "Mission", text: about.mission },
-            { icon: Eye, title: "Vision", text: about.vision },
+            { title: "Our Mission", text: about.mission, art: <Image src={book.src} alt="" width={book.width} height={book.height} className="h-auto w-[5.6rem]" sizes="96px" /> },
+            { title: "Our Vision", text: about.vision, art: <Icon name="compass" size={64} strokeWidth={1.4} live /> },
           ].map((b, i) => (
-            <Reveal key={b.title} delay={i * 100} className="card p-8 sm:p-10">
-              <span className="icon-tile">
-                <b.icon size={24} aria-hidden="true" strokeWidth={1.75} />
+            <Reveal key={b.title} delay={i * 100} className="card card-hover flex flex-col gap-6 p-7 sm:flex-row sm:items-center sm:p-9">
+              <span aria-hidden="true" className="float-a grid h-32 w-32 shrink-0 place-items-center rounded-[1.6rem] bg-gradient-to-br from-white to-blue-100 text-blue shadow-[inset_0_1px_0_#fff,0_18px_32px_-16px_rgb(7_85_233/0.45)] ring-1 ring-white">
+                {b.art}
               </span>
-              <h2 className="mt-6 text-2xl sm:text-3xl">{b.title}</h2>
-              <p className="mt-4 text-lg leading-relaxed">{b.text}</p>
+              <div>
+                <h2 className="text-2xl sm:text-3xl">{b.title}</h2>
+                <span className="rule mt-4" aria-hidden="true" />
+                <p className="mt-4 text-lg leading-relaxed">{b.text}</p>
+              </div>
             </Reveal>
           ))}
         </div>
       </section>
 
-      {/* Core values */}
+      {/* ---------------- Core values ---------------- */}
       <section aria-labelledby="values-title" className="navy-panel on-dark py-20 lg:py-28">
         <div className="container-x">
           <Reveal className="max-w-2xl">
@@ -71,7 +110,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Training approach */}
+      {/* ---------------- Training approach ---------------- */}
       <section aria-labelledby="approach-title" className="py-20 lg:py-28">
         <div className="container-x grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <SectionHeading id="approach-title" lead={about.approach.heading.lead} accent={about.approach.heading.accent} intro={about.approach.intro} />
@@ -91,7 +130,29 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <ClosingCta {...closingCta} />
+      {/* ---------------- Closing band ---------------- */}
+      <section aria-labelledby="band-title" className="navy-panel on-dark relative overflow-hidden">
+        <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full text-white/10" viewBox="0 0 800 300" preserveAspectRatio="xMidYMid slice">
+          <ellipse cx="560" cy="150" rx="380" ry="110" fill="none" stroke="currentColor" strokeWidth="1.5" transform="rotate(-8 560 150)" />
+          <ellipse cx="560" cy="150" rx="300" ry="80" fill="none" stroke="currentColor" strokeWidth="1.5" transform="rotate(6 560 150)" />
+        </svg>
+        <Reveal className="container-x relative flex flex-col gap-8 py-16 lg:flex-row lg:items-center lg:justify-between lg:py-20">
+          <div className="max-w-2xl">
+            <h2 id="band-title" className="text-3xl !text-white sm:text-5xl">
+              {about.band.headingLines.map((l) => (
+                <span key={l} className="block">
+                  {l}
+                </span>
+              ))}
+            </h2>
+            <p className="mt-5 text-lg text-white/80">{about.band.text}</p>
+          </div>
+          <Link href={about.band.cta.href} className="btn btn-primary shrink-0 self-start !px-10 lg:self-center">
+            {about.band.cta.label}
+            <ArrowRight size={18} aria-hidden="true" />
+          </Link>
+        </Reveal>
+      </section>
     </>
   );
 }

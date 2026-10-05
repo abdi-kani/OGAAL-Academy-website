@@ -77,6 +77,14 @@ const arms = {
       <path className="ai-glint ai-glint-2" d="m15 13.4 2.6-2.6" />
     </>
   ),
+  /* Compass (vision): the needle swings and settles */
+  compass: (
+    <>
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 2v1.6M12 20.4V22M2 12h1.6M20.4 12H22" />
+      <path className="ai-needle" d="m16.2 7.8-2.1 6.3-6.3 2.1 2.1-6.3z" />
+    </>
+  ),
 } satisfies Record<string, ReactNode>;
 
 export type ArmsIconName = keyof typeof arms;
