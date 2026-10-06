@@ -159,11 +159,11 @@ When the domain is registered and pointed at the deployment:
 | 9 | **Privacy policy** | Approve a policy (the forms collect personal data), add the page, set `site.privacyPolicyHref` |
 | 10 | **Vector logo** | Original vector file of the official logo |
 | 11 | **Photographs** | Licensed photos of adult learners and instructors (optional; one slot on About) |
-| 12 | **Claims** | Partnerships, accreditation or government approval appear only once the signed supporting documents are confirmed (none are on the site) |
+| 12 | **Partners** | The home page lists the Ministry of Internal Security cooperation as **"Agreement pending signature confirmation"**. Once signed, set `status: "signed"` in `partnersSection` (`src/content/site.ts`). Don’t add the ministry’s emblem without written permission. |
 
 ## 9. Content rules followed
 
-The content comes from the academy's supplied documents. The site has **no** testimonials, graduate numbers, success rates, instructor biographies, qualifications, government or partner logos, course schedules, prices, invented contact details, map pins, or certificate verification tool. Programme descriptions stay at an educational-overview level.
+The content comes from the academy's supplied documents. The site has **no** testimonials, graduate numbers, success rates, instructor biographies, qualifications, government or partner logos (the one partner is shown as text with its agreement status), course schedules, prices, invented contact details, map pins, or certificate verification tool. Programme descriptions stay at an educational-overview level.
 
 ## Scripts
 

@@ -636,3 +636,26 @@ li:hover .ai [class*="ai-"],
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---------- Home training list ("Knowledge with a purpose") ---------- */
+.tab-line {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.tab-row.is-on .tab-line {
+  transform: scaleX(1);
+}
+.tab-row:focus-visible {
+  outline-offset: -3px;
+}
+.panel-in {
+  animation: panel-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes panel-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.tile-pop-in {
+  animation: tile-pop 0.7s cubic-bezier(0.3, 1.5, 0.5, 1) 0.1s backwards;
+}

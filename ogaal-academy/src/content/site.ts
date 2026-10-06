@@ -36,6 +36,7 @@ export const nav = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
   { label: "Training", href: "/training" },
+  { label: "Partners", href: "/#partners" },
   { label: "Admissions", href: "/admissions" },
   { label: "Contact", href: "/contact" },
 ];
@@ -145,6 +146,37 @@ export const trainingPreview = {
   cta: { label: "View All Training", href: "/training" },
 };
 
+/** Home page "Knowledge with a purpose" list: pick a topic on the left, details show on the right. */
+export const trainingTabs = {
+  eyebrow: "Our Training",
+  headingLines: ["Knowledge with", "a purpose."],
+  intro: "Explore the academy’s core areas of safety education.",
+  items: [
+    {
+      title: "Firearm safety",
+      icon: "pistol",
+      eyebrow: "A foundation in safety",
+      heading: "Awareness comes first.",
+      text: "Develop an understanding of firearm safety, risk awareness and the importance of a consistent safety mindset.",
+    },
+    {
+      title: "Responsible ownership",
+      icon: "gunLock",
+      eyebrow: "Accountability",
+      heading: "Every decision matters.",
+      text: "Explore accountability, sound judgment, safe storage and consideration for others.",
+    },
+    {
+      title: "Assessment & certification",
+      icon: "award",
+      eyebrow: "Proven understanding",
+      heading: "Learning you can demonstrate.",
+      text: "Demonstrate your understanding through the academy’s assessment process. Successful participants receive an OGAAL Firearms Safety Training Certificate.",
+    },
+  ],
+  cta: { label: "View All Training", href: "/training" },
+} as const;
+
 export const programmePreview = {
   heading: { lead: "Two days dedicated to", accent: "safety." },
   days: [
@@ -163,6 +195,27 @@ export const admissionsPreview = {
     "Confirm enrolment.",
   ],
   cta: { label: "View Admission Requirements", href: "/admissions" },
+};
+
+/**
+ * Partners and cooperation (home page, #partners).
+ * status: "pending" shows "Agreement pending signature confirmation".
+ * Change to "signed" only once the signed agreement is in hand.
+ */
+export const partnersSection = {
+  eyebrow: "Partners & Cooperation",
+  headingLines: ["Working together.", "For a safer tomorrow."],
+  accent: "safer tomorrow.",
+  intro: "Institutional cooperation built around safety education and responsibility.",
+  partners: [
+    {
+      country: "Federal Republic of Somalia",
+      name: "Ministry of Internal Security",
+      localName: "Wasaaradda Amniga Gudaha",
+      text: "Cooperation concerning structured training and assessment for personnel working in private security.",
+      status: "pending" as "pending" | "signed",
+    },
+  ],
 };
 
 export const closingCta = {

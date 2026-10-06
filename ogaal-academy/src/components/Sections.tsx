@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { ArrowRight, CalendarDays } from "lucide-react";
-import { about, faqs, programme, safetyTopics, training } from "@/content/site";
+import { ArrowRight, BadgeCheck, CalendarDays, Landmark } from "lucide-react";
+import { about, faqs, partnersSection, programme, safetyTopics, training } from "@/content/site";
 import { Accordion } from "./Accordion";
 import { Icon, type IconName } from "./Icon";
 import { Reveal } from "./Reveal";
@@ -162,6 +162,77 @@ export function SafetyMarquee() {
           {row(0)}
           {row(1)}
         </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- Partners & cooperation ---------------- */
+export function PartnersSection() {
+  const s = partnersSection;
+  const [lead, last] = s.headingLines;
+  const plain = last.replace(s.accent, "");
+  return (
+    <section id="partners" aria-labelledby="partners-title" className="sky scroll-mt-24 py-20 lg:py-28">
+      <div className="container-x">
+        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <Reveal>
+            <p className="eyebrow">{s.eyebrow}</p>
+            <h2 id="partners-title" className="mt-5 text-[2.3rem] leading-[1.05] tracking-[-0.04em] sm:text-6xl">
+              <span className="block">{lead}</span>
+              <span className="block">
+                {plain}
+                <span className="text-blue">{s.accent}</span>
+              </span>
+            </h2>
+          </Reveal>
+          <Reveal delay={80} className="max-w-sm text-lg">
+            {s.intro}
+          </Reveal>
+        </div>
+
+        <ul className="mt-12 grid gap-5" role="list">
+          {s.partners.map((p, i) => (
+            <Reveal as="li" key={p.name} delay={i * 100} className="card card-hover group grid items-center gap-8 p-7 sm:p-10 lg:grid-cols-[auto_1fr_auto] lg:gap-12">
+              <span className="relative grid h-36 w-36 place-items-center sm:h-44 sm:w-44" aria-hidden="true">
+                <svg viewBox="0 0 100 100" className="spin-slow absolute inset-0 h-full w-full text-blue/40">
+                  <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" strokeWidth="0.8" strokeDasharray="2 3" />
+                </svg>
+                <span className="grid h-[82%] w-[82%] place-items-center rounded-full bg-blue-50 text-blue transition-colors duration-300 group-hover:bg-blue group-hover:text-white">
+                  <Landmark size={56} strokeWidth={1.4} />
+                </span>
+              </span>
+              <div>
+                <p className="font-display text-xs font-bold tracking-[0.28em] text-body uppercase">{p.country}</p>
+                <h3 className="mt-3 text-3xl font-bold sm:text-4xl">{p.name}</h3>
+                <p className="mt-2 font-display text-lg font-semibold text-navy">{p.localName}</p>
+                <p className="mt-4 max-w-2xl text-lg">{p.text}</p>
+                {p.status === "pending" ? (
+                  <p className="mt-6 inline-flex items-center gap-3 rounded-xl bg-amber-50 px-4 py-2.5 text-sm font-semibold text-amber-800">
+                    <span className="relative flex h-2 w-2" aria-hidden="true">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500 opacity-60" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-600" />
+                    </span>
+                    Agreement pending signature confirmation
+                  </p>
+                ) : (
+                  <p className="mt-6 inline-flex items-center gap-2 rounded-xl bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-800">
+                    <BadgeCheck size={16} aria-hidden="true" />
+                    Signed cooperation agreement
+                  </p>
+                )}
+              </div>
+              <div className="border-line lg:border-l lg:pl-12">
+                <p className="font-display text-5xl font-extrabold tracking-tight text-blue">OGAAL</p>
+                <p className="mt-3 font-display text-xs font-bold tracking-[0.2em] text-blue uppercase">
+                  Institutional
+                  <br />
+                  cooperation
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </ul>
       </div>
     </section>
   );

@@ -9,14 +9,13 @@ import {
   introCards,
   programmePreview,
   site,
-  training,
-  trainingPreview,
 } from "@/content/site";
 import { HeroArt } from "@/components/HeroArt";
+import { TrainingTabs } from "@/components/TrainingTabs";
 import { Icon3D } from "@/components/Icon3D";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import { ClosingCta, SafetyMarquee, StepsRow, TrainingCard } from "@/components/Sections";
+import { ClosingCta, PartnersSection, SafetyMarquee, StepsRow } from "@/components/Sections";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -25,8 +24,6 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  const previewCards = trainingPreview.slugs.map((s) => training.find((t) => t.slug === s)!);
-
   return (
     <>
       {/* ---------------- Hero ---------------- */}
@@ -114,25 +111,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ---------------- Training preview ---------------- */}
-      <section aria-labelledby="training-title" className="bg-light py-20 lg:py-28">
-        <div className="container-x">
-          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <SectionHeading id="training-title" lead={trainingPreview.heading.lead} accent={trainingPreview.heading.accent} />
-            <Reveal>
-              <Link href={trainingPreview.cta.href} className="btn btn-outline shrink-0">
-                {trainingPreview.cta.label}
-                <ArrowRight size={18} aria-hidden="true" />
-              </Link>
-            </Reveal>
-          </div>
-          <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4" role="list">
-            {previewCards.map((t, i) => (
-              <TrainingCard key={t.slug} t={t} index={i} />
-            ))}
-          </ul>
-        </div>
-      </section>
+      <TrainingTabs />
 
       {/* ---------------- Programme preview ---------------- */}
       <section aria-labelledby="programme-title" className="py-20 lg:py-28">
@@ -160,8 +139,10 @@ export default function HomePage() {
         </div>
       </section>
 
+      <PartnersSection />
+
       {/* ---------------- Admissions preview ---------------- */}
-      <section aria-labelledby="admissions-title" className="bg-light py-20 lg:py-28">
+      <section aria-labelledby="admissions-title" className="py-20 lg:py-28">
         <div className="container-x">
           <SectionHeading id="admissions-title" lead={admissionsPreview.heading.lead} accent={admissionsPreview.heading.accent} align="center" />
           <StepsRow steps={admissionsPreview.steps.map((text) => ({ text }))} />
