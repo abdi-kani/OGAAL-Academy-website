@@ -177,12 +177,13 @@ export const closingCta = {
 export const about = {
   heading: "About OGAAL Academy",
   hero: {
-    eyebrow: "About OGAAL",
-    headingLines: ["Knowledge builds", "a safer future."],
-    text: "Professional firearms safety and responsibility education for individuals, security personnel, and organisations.",
-    primary: { label: "Explore Our Programs", href: "/training" },
-    secondary: { label: "About the Academy", href: "#who-we-are" },
+    eyebrow: "01 / About OGAAL",
+    headingLines: ["Responsibility", "starts with", "knowledge"],
+    text: "Professional firearms safety education for individuals, security personnel, and organisations.",
+    primary: { label: "Discover our approach", href: "#approach" },
+    pillars: ["Safety", "Accountability", "Respect for life"],
   },
+  strip: ["Classroom learning", "Supervised safety exercises", "Assessment"],
   whoHeading: "Safety. Responsibility. Respect.",
   band: {
     headingLines: ["Start with knowledge.", "Lead with responsibility."],

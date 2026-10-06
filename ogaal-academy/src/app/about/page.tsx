@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { about, art, photos } from "@/content/site";
-import { AboutHeroArt } from "@/components/AboutHeroArt";
+import { ArrowRight, ArrowUpRight, MoveRight } from "lucide-react";
+import { about, photos } from "@/content/site";
+import { LogoMonument } from "@/components/LogoMonument";
 import { Icon, type IconName } from "@/components/Icon";
 import { PhotoPanel } from "@/components/PhotoPanel";
 import { Reveal } from "@/components/Reveal";
@@ -19,43 +18,101 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function AboutPage() {
-  const book = art.icons.book;
-
   return (
     <>
-      {/* ---------------- Hero ---------------- */}
-      <section aria-labelledby="about-hero-title" className="sky relative overflow-hidden">
-        <svg aria-hidden="true" className="ripple pointer-events-none absolute top-0 right-0 h-full w-[60%] text-blue/10" viewBox="0 0 600 400" preserveAspectRatio="xMaxYMid slice">
-          <circle cx="520" cy="200" r="260" fill="none" stroke="currentColor" strokeWidth="2" />
-          <circle cx="520" cy="200" r="190" fill="none" stroke="currentColor" strokeWidth="2" />
-          <circle cx="520" cy="200" r="120" fill="none" stroke="currentColor" strokeWidth="2" />
-        </svg>
-        <div className="container-x relative grid items-center gap-8 py-14 sm:py-16 lg:grid-cols-[1fr_1fr] lg:gap-6 lg:py-20">
-          <Reveal>
-            <p className="eyebrow">{about.hero.eyebrow}</p>
-            <h1 id="about-hero-title" className="mt-6 text-[2.6rem] leading-[1.04] tracking-[-0.045em] sm:text-6xl lg:text-[3.6rem]">
-              {about.hero.headingLines.map((l) => (
+      {/* ---------------- Hero (dark stage) ---------------- */}
+      <section aria-labelledby="about-hero-title" className="dark-stage on-dark relative overflow-hidden">
+        <div aria-hidden="true" className="stage-grid pointer-events-none absolute inset-0" />
+        <div className="container-x relative grid items-center gap-6 pt-14 lg:grid-cols-[1.05fr_0.95fr] lg:pt-16">
+          <Reveal className="pb-4 lg:pb-16">
+            <p className="flex items-center gap-4 font-display text-sm font-bold tracking-[0.18em] text-white/85 uppercase">
+              {about.hero.eyebrow}
+              <span className="h-px w-16 bg-white/50" aria-hidden="true" />
+            </p>
+            <h1 id="about-hero-title" className="mt-7 text-[3rem] leading-[0.95] tracking-[-0.045em] !text-white sm:text-7xl xl:text-[5.4rem]">
+              {about.hero.headingLines.map((l, i) => (
                 <span key={l} className="block">
                   {l}
+                  {i === about.hero.headingLines.length - 1 && (
+                    <span aria-hidden="true" className="blink-square ml-[0.06em] inline-block h-[0.16em] w-[0.16em] bg-blue" />
+                  )}
                 </span>
               ))}
             </h1>
-            <p className="mt-6 max-w-lg text-lg sm:text-xl">{about.hero.text}</p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <Link href={about.hero.primary.href} className="btn btn-primary">
-                {about.hero.primary.label}
-                <ArrowRight size={18} aria-hidden="true" />
-              </Link>
-              <a href={about.hero.secondary.href} className="btn btn-outline !border-blue !text-blue hover:!bg-blue hover:!text-white">
-                {about.hero.secondary.label}
-              </a>
-            </div>
+            <p className="mt-7 max-w-md text-lg text-white/85 sm:text-xl">{about.hero.text}</p>
+            <a href={about.hero.primary.href} className="group btn btn-white btn-pill mt-9 !text-navy">
+              {about.hero.primary.label}
+              <ArrowUpRight size={18} aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
           </Reveal>
           <Reveal delay={120}>
-            <AboutHeroArt />
+            <LogoMonument />
           </Reveal>
         </div>
+        <div className="container-x relative">
+          <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-white/10 py-6 font-display text-xs font-bold tracking-[0.3em] text-white/75 uppercase sm:text-sm" role="list">
+            {about.hero.pillars.map((p, i) => (
+              <li key={p} className="flex items-center gap-6">
+                {i > 0 && <span className="text-white/40" aria-hidden="true">/</span>}
+                {p}
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
+
+      {/* ---------------- Mission & vision (split band) ---------------- */}
+      <section aria-label="Mission and vision" className="grid md:grid-cols-[1.15fr_1fr]">
+        {[
+          { n: "01", title: "Our Mission", text: about.mission, dark: true },
+          { n: "02", title: "Our Vision", text: about.vision, dark: false },
+        ].map((b, i) => (
+          <Reveal
+            key={b.title}
+            delay={i * 100}
+            className={`group relative overflow-hidden px-6 py-14 sm:px-12 lg:py-16 ${b.dark ? "on-dark bg-gradient-to-br from-[#0b4ff0] to-[#0636b8]" : "bg-light"}`}
+          >
+            {b.dark && (
+              <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full text-white" viewBox="0 0 600 300" preserveAspectRatio="none">
+                <polygon points="380,0 600,0 600,300 240,300" fill="currentColor" opacity="0.05" />
+                <polygon points="470,0 600,0 600,300 420,300" fill="currentColor" opacity="0.05" />
+              </svg>
+            )}
+            <span
+              aria-hidden="true"
+              className={`outline-num pointer-events-none absolute top-6 font-display text-[7rem] leading-none font-extrabold sm:text-[9rem] ${b.dark ? "right-6 text-white/20 lg:right-auto lg:left-4" : "right-6 text-navy/10"}`}
+            >
+              {b.n}
+            </span>
+            <div className={`relative max-w-lg ${b.dark ? "lg:ml-[22%]" : "lg:ml-[10%]"}`}>
+              <span className={`block h-[3px] w-12 rounded-full ${b.dark ? "bg-white" : "bg-blue"}`} aria-hidden="true" />
+              <h2 className={`mt-6 text-3xl sm:text-4xl ${b.dark ? "!text-white" : ""}`}>{b.title}</h2>
+              <p className={`mt-4 text-lg leading-relaxed ${b.dark ? "text-white/90" : ""}`}>{b.text}</p>
+              <MoveRight size={40} strokeWidth={1.25} aria-hidden="true" className={`arrow-nudge mt-8 ${b.dark ? "text-white" : "text-navy"}`} />
+            </div>
+          </Reveal>
+        ))}
+      </section>
+
+      {/* ---------------- Strip ---------------- */}
+      <div className="bg-[#050b1c] text-white/75">
+        <div className="container-x flex flex-col gap-4 py-6 text-xs tracking-[0.16em] lg:flex-row lg:items-center lg:gap-8">
+          <ul className="flex flex-wrap items-center gap-x-3 gap-y-1 lg:shrink-0 lg:flex-nowrap lg:whitespace-nowrap" role="list">
+            {about.strip.map((t, i) => (
+              <li key={t} className="flex items-center gap-3">
+                {i > 0 && <span aria-hidden="true">•</span>}
+                {t}
+              </li>
+            ))}
+          </ul>
+          <span aria-hidden="true" className="line-sweep hidden h-px flex-1 bg-white/15 lg:block" />
+          <p className="flex items-center gap-4 uppercase lg:shrink-0 lg:whitespace-nowrap">
+            <span className="font-display font-extrabold tracking-[0.2em] text-blue">OGAAL</span>
+            <span className="h-4 w-px bg-white/30" aria-hidden="true" />
+            Firearms Safety &amp; Responsibility Training Academy
+          </p>
+        </div>
+      </div>
 
       {/* ---------------- Who we are ---------------- */}
       <section id="who-we-are" aria-labelledby="who-title" className="scroll-mt-24 py-20 lg:py-28">
@@ -76,27 +133,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ---------------- Mission & vision ---------------- */}
-      <section aria-label="Mission and vision" className="pb-20 lg:pb-28">
-        <div className="container-x grid gap-6 md:grid-cols-2">
-          {[
-            { title: "Our Mission", text: about.mission, art: <Image src={book.src} alt="" width={book.width} height={book.height} className="h-auto w-[5.6rem]" sizes="96px" /> },
-            { title: "Our Vision", text: about.vision, art: <Icon name="compass" size={64} strokeWidth={1.4} live /> },
-          ].map((b, i) => (
-            <Reveal key={b.title} delay={i * 100} className="card card-hover flex flex-col gap-6 p-7 sm:flex-row sm:items-center sm:p-9">
-              <span aria-hidden="true" className="float-a grid h-32 w-32 shrink-0 place-items-center rounded-[1.6rem] bg-gradient-to-br from-white to-blue-100 text-blue shadow-[inset_0_1px_0_#fff,0_18px_32px_-16px_rgb(7_85_233/0.45)] ring-1 ring-white">
-                {b.art}
-              </span>
-              <div>
-                <h2 className="text-2xl sm:text-3xl">{b.title}</h2>
-                <span className="rule mt-4" aria-hidden="true" />
-                <p className="mt-4 text-lg leading-relaxed">{b.text}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
       {/* ---------------- Core values ---------------- */}
       <section aria-labelledby="values-title" className="navy-panel on-dark py-20 lg:py-28">
         <div className="container-x">
@@ -111,7 +147,7 @@ export default function AboutPage() {
       </section>
 
       {/* ---------------- Training approach ---------------- */}
-      <section aria-labelledby="approach-title" className="py-20 lg:py-28">
+      <section id="approach" aria-labelledby="approach-title" className="scroll-mt-24 py-20 lg:py-28">
         <div className="container-x grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <SectionHeading id="approach-title" lead={about.approach.heading.lead} accent={about.approach.heading.accent} intro={about.approach.intro} />
           <ol className="grid gap-4" role="list">
