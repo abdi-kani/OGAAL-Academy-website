@@ -212,11 +212,7 @@ export const about = {
   },
   strip: ["Classroom learning", "Supervised safety exercises", "Assessment"],
   whoHeading: "Safety. Responsibility. Respect.",
-  band: {
-    headingLines: ["Start with knowledge.", "Lead with responsibility."],
-    text: "Join OGAAL Firearms Safety & Responsibility Training Academy and be part of a safer, more responsible community through professional education.",
-    cta: { label: "Get in Touch", href: "/contact" },
-  },
+
   intro: [
     "OGAAL Firearms Safety and Responsibility Training Academy provides professional safety education for eligible individuals, security personnel, and organisations.",
     "Our approach combines classroom learning, supervised safety exercises, and assessment. We encourage lawful conduct, personal accountability, and respect for life throughout the learning process.",

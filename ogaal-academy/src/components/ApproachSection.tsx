@@ -30,7 +30,7 @@ export function ApproachSection() {
           {/* feature card */}
           <Reveal className="relative flex min-h-[26rem] flex-col justify-between overflow-hidden rounded-[1.25rem] bg-gradient-to-br from-[#1e63ff] via-[#0b4fe6] to-[#0636b8] p-8 shadow-[var(--shadow-lift)] sm:p-10">
             <div aria-hidden="true" className="breathe absolute top-[4%] right-[10%] left-[10%] h-[60%] rounded-full bg-[radial-gradient(circle,rgb(147_197_253/0.55),transparent_65%)] blur-2xl" />
-            <div className="relative mx-auto w-[62%] max-w-[15rem]">
+            <div className="relative mx-auto w-[74%] max-w-[17rem]">
               <div className="logo-bob relative z-10 mx-auto w-[84%]">
                 <Image src={mark.src} alt={site.logo.alt} width={mark.width} height={mark.height} sizes="220px" className="relative h-auto w-full drop-shadow-[0_18px_22px_rgb(3_28_92/0.55)]" />
                 <span aria-hidden="true" className="logo-sheen absolute inset-0" style={{ maskImage: `url(${mark.src})`, WebkitMaskImage: `url(${mark.src})` }} />
@@ -38,7 +38,7 @@ export function ApproachSection() {
               <div aria-hidden="true" className="approach-podium relative -mt-[12%] h-12 w-full" />
             </div>
             <div className="relative mt-10">
-              <p className="font-serif text-4xl leading-[1.08] font-semibold text-white sm:text-5xl">
+              <p className="font-serif text-4xl leading-[1.08] font-semibold text-white lg:text-[2.6rem] xl:text-5xl">
                 <span className="block">{f1}</span>
                 <span className="block">{f2}</span>
                 <span className="block text-[#8fb6ff]">{f3}</span>

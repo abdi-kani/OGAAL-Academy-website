@@ -702,3 +702,29 @@ li:hover .ai [class*="ai-"],
     inset 0 -6px 12px rgb(3 28 92 / 0.45),
     0 22px 34px -14px rgb(7 85 233 / 0.75);
 }
+
+/* ---------- About: training approach ---------- */
+.approach-icon {
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 1.5rem;
+}
+.group:hover .approach-icon .lucide-refresh-cw {
+  animation: spin 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+.group:hover .approach-icon .lucide:not(.lucide-refresh-cw) {
+  animation: wiggle 0.8s ease-in-out;
+}
+@keyframes wiggle {
+  0%, 100% { transform: none; }
+  25% { transform: rotate(-10deg) scale(1.06); }
+  60% { transform: rotate(6deg); }
+}
+.approach-podium {
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 30%, #ffffff 0%, #c9dbff 35%, #3b78f5 70%, #0a3fb3 100%);
+  box-shadow:
+    inset 0 -5px 0 rgb(3 28 92 / 0.45),
+    0 0 30px rgb(147 197 253 / 0.6),
+    0 18px 24px -10px rgb(3 28 92 / 0.7);
+}

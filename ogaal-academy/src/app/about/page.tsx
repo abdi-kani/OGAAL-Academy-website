@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowRight, ArrowUpRight, MoveRight } from "lucide-react";
+import { ArrowUpRight, MoveRight } from "lucide-react";
 import { about, photos } from "@/content/site";
+import { ApproachSection } from "@/components/ApproachSection";
 import { DarkHero } from "@/components/DarkHero";
 import { LogoMonument } from "@/components/LogoMonument";
-import { Icon, type IconName } from "@/components/Icon";
 import { PhotoPanel } from "@/components/PhotoPanel";
 import { Reveal } from "@/components/Reveal";
-import { SectionHeading } from "@/components/SectionHeading";
 import { ValuesGrid } from "@/components/Sections";
 import { pageMetadata } from "@/lib/seo";
 
@@ -136,49 +134,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ---------------- Training approach ---------------- */}
-      <section id="approach" aria-labelledby="approach-title" className="scroll-mt-24 py-20 lg:py-28">
-        <div className="container-x grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-          <SectionHeading id="approach-title" lead={about.approach.heading.lead} accent={about.approach.heading.accent} intro={about.approach.intro} />
-          <ol className="grid gap-4" role="list">
-            {about.approach.items.map((it, i) => (
-              <Reveal as="li" key={it.title} delay={i * 60} className="card flex items-start gap-5 p-6">
-                <span className="icon-tile">
-                  <Icon name={it.icon as IconName} />
-                </span>
-                <div>
-                  <h3 className="text-lg">{it.title}</h3>
-                  <p className="mt-1.5">{it.text}</p>
-                </div>
-              </Reveal>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      {/* ---------------- Closing band ---------------- */}
-      <section aria-labelledby="band-title" className="navy-panel on-dark relative overflow-hidden">
-        <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full text-white/10" viewBox="0 0 800 300" preserveAspectRatio="xMidYMid slice">
-          <ellipse cx="560" cy="150" rx="380" ry="110" fill="none" stroke="currentColor" strokeWidth="1.5" transform="rotate(-8 560 150)" />
-          <ellipse cx="560" cy="150" rx="300" ry="80" fill="none" stroke="currentColor" strokeWidth="1.5" transform="rotate(6 560 150)" />
-        </svg>
-        <Reveal className="container-x relative flex flex-col gap-8 py-16 lg:flex-row lg:items-center lg:justify-between lg:py-20">
-          <div className="max-w-2xl">
-            <h2 id="band-title" className="text-3xl !text-white sm:text-5xl">
-              {about.band.headingLines.map((l) => (
-                <span key={l} className="block">
-                  {l}
-                </span>
-              ))}
-            </h2>
-            <p className="mt-5 text-lg text-white/80">{about.band.text}</p>
-          </div>
-          <Link href={about.band.cta.href} className="btn btn-primary shrink-0 self-start !px-10 lg:self-center">
-            {about.band.cta.label}
-            <ArrowRight size={18} aria-hidden="true" />
-          </Link>
-        </Reveal>
-      </section>
+      <ApproachSection />
     </>
   );
 }
