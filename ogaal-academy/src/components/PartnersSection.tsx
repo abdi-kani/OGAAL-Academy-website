@@ -62,7 +62,7 @@ export function PartnersSection({ headingAs: H = "h2" }: { headingAs?: "h1" | "h
                 <h3 className="mt-4 text-3xl font-extrabold tracking-[-0.03em] sm:text-[2.6rem]">{p.name}</h3>
                 <p className="mt-2 font-display text-xl font-medium text-navy">{p.localName}</p>
                 <p className="mt-5 max-w-xl text-lg">{p.text}</p>
-                {p.status === "pending" ? (
+                {!p.showStatus ? null : p.status === "pending" ? (
                   <p className="mt-5 inline-flex items-center gap-3 rounded-xl bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-800">
                     <span className="relative flex h-2 w-2" aria-hidden="true">
                       <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-500 opacity-60" />

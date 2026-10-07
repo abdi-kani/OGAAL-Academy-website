@@ -159,7 +159,7 @@ When the domain is registered and pointed at the deployment:
 | 9 | **Privacy policy** | Approve a policy (the forms collect personal data), add the page, set `site.privacyPolicyHref` |
 | 10 | **Vector logo** | Original vector file of the official logo |
 | 11 | **Photographs** | Licensed photos of adult learners and instructors (optional; one slot on About) |
-| 12 | **Partners** | The home page lists the Ministry of Internal Security cooperation as **"Agreement pending signature confirmation"**. Once signed, set `status: "signed"` in `partnersSection` (`src/content/site.ts`). Don’t add the ministry’s emblem without written permission. |
+| 12 | **Partners** | The Ministry of Internal Security cooperation is shown on `/partners` and the home page **without a status label** (`showStatus: false`). The agreement is not yet signed: confirm with the Ministry that they agree to being listed. Once signed, set `status: "signed"` and `showStatus: true` to show "Signed cooperation agreement". Don’t add the ministry’s emblem without written permission. |
 
 ## 9. Content rules followed
 

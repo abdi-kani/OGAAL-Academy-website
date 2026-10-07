@@ -188,6 +188,8 @@ export const partnersSection = {
       localName: "Wasaaradda Amniga Gudaha",
       text: "Cooperation concerning structured training and assessment for personnel working in private security.",
       status: "pending" as "pending" | "signed",
+      /** false hides the status label entirely. */
+      showStatus: false,
       focus: [
         { icon: "graduation", text: "Structured training" },
         { icon: "clipboard", text: "Assessment" },
