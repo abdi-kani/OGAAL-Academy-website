@@ -33,12 +33,12 @@ npm start                    # http://localhost:3000
 | `/` | Home — hero with 3D artwork, intro cards, about/training/programme/admissions previews, call to action |
 | `/about` | About Us — introduction, mission, vision, core values, training approach |
 | `/training` | Training — seven programmes and services, Two-Day Programme (`/training#programme`) |
-| `/admissions` | Admissions — requirements, application process, **admissions enquiry form** |
+| `/partners` | Partners & Cooperation — Ministry of Internal Security card with agreement status (old `/admissions` redirects to `/contact`) |
 | `/certification` | Certification — requirements, what the certificate confirms, trainee conduct |
 | `/faq` | FAQs — accessible accordion (old `/faqs` redirects here) |
 | `/contact` | Contact — enquiry form and confirmed contact details |
 
-Header navigation: Home, About Us, Training, Admissions, Contact + **Enquire Now**. Certification and FAQs are linked from the footer and from relevant buttons.
+Header navigation: Home, About Us, Training, Partners, Contact + **Enquire Now**. Certification and FAQs are linked from the footer and from relevant buttons.
 
 ## 3. Editing content
 

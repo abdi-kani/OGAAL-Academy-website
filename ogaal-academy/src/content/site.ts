@@ -36,8 +36,7 @@ export const nav = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
   { label: "Training", href: "/training" },
-  { label: "Partners", href: "/#partners" },
-  { label: "Admissions", href: "/admissions" },
+  { label: "Partners", href: "/partners" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -45,7 +44,7 @@ export const footerNav = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
   { label: "Training", href: "/training" },
-  { label: "Admissions", href: "/admissions" },
+  { label: "Partners", href: "/partners" },
   { label: "Certification", href: "/certification" },
   { label: "FAQs", href: "/faq" },
   { label: "Contact", href: "/contact" },
@@ -181,6 +180,7 @@ export const partnersSection = {
   headingLines: ["Working together.", "For a safer tomorrow."],
   accent: "safer tomorrow.",
   intro: "Institutional cooperation built around safety education and responsibility.",
+  sharedFocus: { lead: "Shared focus:", text: "safety education and responsibility." },
   partners: [
     {
       country: "Federal Republic of Somalia",
@@ -188,6 +188,12 @@ export const partnersSection = {
       localName: "Wasaaradda Amniga Gudaha",
       text: "Cooperation concerning structured training and assessment for personnel working in private security.",
       status: "pending" as "pending" | "signed",
+      focus: [
+        { icon: "graduation", text: "Structured training" },
+        { icon: "clipboard", text: "Assessment" },
+        { icon: "people", text: "Private security personnel" },
+      ],
+      cta: { label: "Enquire about cooperation", href: "/contact?type=General&topic=Institutional%20cooperation" },
     },
   ],
 };
@@ -318,35 +324,6 @@ export const programme = {
   // The academy's documents list two different fees. Keep this wording until the fee is confirmed.
   feeText: "Contact us for confirmed fees and upcoming dates.",
   cta: { label: "Enquire About This Programme", href: "/contact?type=Training&topic=Two-Day%20Programme" },
-};
-
-/* ------------------------------------------------------------------ */
-/* Admissions                                                          */
-/* ------------------------------------------------------------------ */
-export const admissions = {
-  heading: "Your Path to Enrolment",
-  intro: "Admission is subject to eligibility checks and the required vetting and clearance process.",
-  requirementsHeading: { lead: "Admission", accent: "requirements." },
-  requirementsLead: "Applicants must:",
-  requirements: [
-    "Be at least 18 years old.",
-    "Hold valid national identification.",
-    "Complete the academy’s application form.",
-    "Provide passport-size photographs as required.",
-    "Declare medical fitness for practical exercises.",
-    "Have no disqualifying criminal record.",
-    "Complete the required clearance before enrolment.",
-  ],
-  processHeading: { lead: "Application", accent: "process." },
-  steps: [
-    { title: "Application", text: "Complete the academy’s application form with accurate information." },
-    { title: "Supporting Documents", text: "Provide identification and required documents through the academy’s designated process." },
-    { title: "Review and Clearance", text: "Complete the required vetting and clearance before admission." },
-    { title: "Enrolment Confirmation", text: "After clearance, confirm payment and receive training details." },
-  ],
-  formHeading: "Admissions Enquiry",
-  formIntro:
-    "Send us your questions about admission. This is an enquiry form, not an application: please do not send identity documents, criminal-record information, or medical details here. The academy will explain how to provide documents securely.",
 };
 
 /* ------------------------------------------------------------------ */

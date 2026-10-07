@@ -13,7 +13,8 @@ import { TrainingTabs } from "@/components/TrainingTabs";
 import { Icon3D } from "@/components/Icon3D";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import { ClosingCta, PartnersSection, SafetyMarquee } from "@/components/Sections";
+import { PartnersSection } from "@/components/PartnersSection";
+import { ClosingCta, SafetyMarquee } from "@/components/Sections";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = {

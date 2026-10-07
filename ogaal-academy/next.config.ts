@@ -4,7 +4,10 @@ const nextConfig: NextConfig = {
   images: { formats: ["image/avif", "image/webp"] },
   poweredByHeader: false,
   async redirects() {
-    return [{ source: "/faqs", destination: "/faq", permanent: true }];
+    return [
+      { source: "/faqs", destination: "/faq", permanent: true },
+      { source: "/admissions", destination: "/contact", permanent: true },
+    ];
   },
   async headers() {
     return [
