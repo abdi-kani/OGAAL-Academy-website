@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, MoveRight } from "lucide-react";
 import { about, photos } from "@/content/site";
+import { DarkHero } from "@/components/DarkHero";
 import { LogoMonument } from "@/components/LogoMonument";
 import { Icon, type IconName } from "@/components/Icon";
 import { PhotoPanel } from "@/components/PhotoPanel";
@@ -21,35 +22,24 @@ export default function AboutPage() {
   return (
     <>
       {/* ---------------- Hero (dark stage) ---------------- */}
-      <section aria-labelledby="about-hero-title" className="dark-stage on-dark relative overflow-hidden">
-        <div aria-hidden="true" className="stage-grid pointer-events-none absolute inset-0" />
-        <div className="container-x relative grid items-center gap-6 pt-14 lg:grid-cols-[1.05fr_0.95fr] lg:pt-16">
-          <Reveal className="pb-4 lg:pb-16">
-            <p className="flex items-center gap-4 font-display text-sm font-bold tracking-[0.18em] text-white/85 uppercase">
-              {about.hero.eyebrow}
-              <span className="h-px w-16 bg-white/50" aria-hidden="true" />
-            </p>
-            <h1 id="about-hero-title" className="mt-7 text-[3rem] leading-[0.95] tracking-[-0.045em] !text-white sm:text-7xl xl:text-[5.4rem]">
-              {about.hero.headingLines.map((l, i) => (
-                <span key={l} className="block">
-                  {l}
-                  {i === about.hero.headingLines.length - 1 && (
-                    <span aria-hidden="true" className="blink-square ml-[0.06em] inline-block h-[0.16em] w-[0.16em] bg-blue" />
-                  )}
-                </span>
-              ))}
-            </h1>
-            <p className="mt-7 max-w-md text-lg text-white/85 sm:text-xl">{about.hero.text}</p>
-            <a href={about.hero.primary.href} className="group btn btn-white btn-pill mt-9 !text-navy">
-              {about.hero.primary.label}
-              <ArrowUpRight size={18} aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
-          </Reveal>
-          <Reveal delay={120}>
-            <LogoMonument />
-          </Reveal>
-        </div>
-        <div className="container-x relative">
+      <DarkHero
+        id="about-hero-title"
+        eyebrow={
+          <>
+            {about.hero.eyebrow}
+            <span className="h-px w-16 bg-white/50" aria-hidden="true" />
+          </>
+        }
+        headingLines={about.hero.headingLines}
+        text={<p>{about.hero.text}</p>}
+        actions={
+          <a href={about.hero.primary.href} className="group btn btn-white btn-pill self-start !text-navy">
+            {about.hero.primary.label}
+            <ArrowUpRight size={18} aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </a>
+        }
+        visual={<LogoMonument />}
+        footer={
           <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-white/10 py-6 font-display text-xs font-bold tracking-[0.3em] text-white/75 uppercase sm:text-sm" role="list">
             {about.hero.pillars.map((p, i) => (
               <li key={p} className="flex items-center gap-6">
@@ -58,8 +48,8 @@ export default function AboutPage() {
               </li>
             ))}
           </ul>
-        </div>
-      </section>
+        }
+      />
 
       {/* ---------------- Mission & vision (split band) ---------------- */}
       <section aria-label="Mission and vision" className="grid md:grid-cols-[1.15fr_1fr]">

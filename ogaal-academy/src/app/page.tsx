@@ -3,11 +3,9 @@ import Link from "next/link";
 import { ArrowRight, Building2, GraduationCap, MapPin } from "lucide-react";
 import {
   aboutPreview,
-  admissionsPreview,
   closingCta,
   hero,
   introCards,
-  programmePreview,
   site,
 } from "@/content/site";
 import { HeroArt } from "@/components/HeroArt";
@@ -15,7 +13,7 @@ import { TrainingTabs } from "@/components/TrainingTabs";
 import { Icon3D } from "@/components/Icon3D";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import { ClosingCta, PartnersSection, SafetyMarquee, StepsRow } from "@/components/Sections";
+import { ClosingCta, PartnersSection, SafetyMarquee } from "@/components/Sections";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -113,47 +111,7 @@ export default function HomePage() {
 
       <TrainingTabs />
 
-      {/* ---------------- Programme preview ---------------- */}
-      <section aria-labelledby="programme-title" className="py-20 lg:py-28">
-        <div className="container-x grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
-          <div>
-            <SectionHeading id="programme-title" lead={programmePreview.heading.lead} accent={programmePreview.heading.accent} />
-            <Reveal className="mt-8">
-              <Link href={programmePreview.cta.href} className="btn btn-primary">
-                {programmePreview.cta.label}
-                <ArrowRight size={18} aria-hidden="true" />
-              </Link>
-            </Reveal>
-          </div>
-          <ol className="grid gap-5 sm:grid-cols-2" role="list">
-            {programmePreview.days.map((d, i) => (
-              <Reveal as="li" key={d.label} delay={i * 100} className={`relative overflow-hidden rounded-[var(--radius-card)] p-8 ${i === 0 ? "card" : "navy-panel on-dark"}`}>
-                <span className={`font-display text-6xl font-extrabold tracking-tight ${i === 0 ? "text-blue/15" : "text-white/15"}`} aria-hidden="true">
-                  0{i + 1}
-                </span>
-                <h3 className={`mt-4 text-2xl ${i === 0 ? "" : "!text-white"}`}>{d.label}</h3>
-                <p className={`mt-3 ${i === 0 ? "" : "text-white/80"}`}>{d.text}</p>
-              </Reveal>
-            ))}
-          </ol>
-        </div>
-      </section>
-
       <PartnersSection />
-
-      {/* ---------------- Admissions preview ---------------- */}
-      <section aria-labelledby="admissions-title" className="py-20 lg:py-28">
-        <div className="container-x">
-          <SectionHeading id="admissions-title" lead={admissionsPreview.heading.lead} accent={admissionsPreview.heading.accent} align="center" />
-          <StepsRow steps={admissionsPreview.steps.map((text) => ({ text }))} />
-          <Reveal className="mt-12 text-center">
-            <Link href={admissionsPreview.cta.href} className="btn btn-primary">
-              {admissionsPreview.cta.label}
-              <ArrowRight size={18} aria-hidden="true" />
-            </Link>
-          </Reveal>
-        </div>
-      </section>
 
       <ClosingCta {...closingCta} />
     </>

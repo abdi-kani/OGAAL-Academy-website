@@ -140,12 +140,6 @@ export const aboutPreview = {
   cta: { label: "Learn About OGAAL", href: "/about" },
 };
 
-export const trainingPreview = {
-  heading: { lead: "Training and safety", accent: "education." },
-  slugs: ["safety-education", "storage-transportation", "legal-ethical", "assessment-certification"],
-  cta: { label: "View All Training", href: "/training" },
-};
-
 /** Home page "Knowledge with a purpose" list: pick a topic on the left, details show on the right. */
 export const trainingTabs = {
   eyebrow: "Our Training",
@@ -176,26 +170,6 @@ export const trainingTabs = {
   ],
   cta: { label: "View All Training", href: "/training" },
 } as const;
-
-export const programmePreview = {
-  heading: { lead: "Two days dedicated to", accent: "safety." },
-  days: [
-    { label: "Day One", text: "Safety foundations, legal responsibilities, and safe storage awareness." },
-    { label: "Day Two", text: "Supervised safety learning, assessment, and course review." },
-  ],
-  cta: { label: "Explore the Programme", href: "/training#programme" },
-};
-
-export const admissionsPreview = {
-  heading: { lead: "Your path to", accent: "enrolment." },
-  steps: [
-    "Submit an application.",
-    "Provide supporting documents.",
-    "Complete the required review and clearance.",
-    "Confirm enrolment.",
-  ],
-  cta: { label: "View Admission Requirements", href: "/admissions" },
-};
 
 /**
  * Partners and cooperation (home page, #partners).
@@ -259,8 +233,11 @@ export const about = {
     { icon: "scale", title: "Compliance", text: "Respecting applicable laws and institutional requirements." },
   ],
   approach: {
-    heading: { lead: "Our training", accent: "approach." },
-    intro: "Every part of the programme is designed to build safety knowledge, sound judgment, and accountability.",
+    eyebrow: "Our Training Approach",
+    headingLines: ["A clear path to", "responsible learning."],
+    intro: "Building safety knowledge, sound judgment, and accountability.",
+    feature: ["Knowledge.", "Practice.", "Responsibility."],
+    bar: { lead: "Learn with purpose.", accent: "Act with responsibility.", cta: { label: "Enquire about training", href: "/contact?type=Training" } },
     items: [
       { icon: "presentation", title: "Structured classroom education", text: "Clear, organised lessons that build understanding of safety principles step by step." },
       { icon: "safetyGlasses", title: "Supervised safety learning", text: "Practical learning takes place under instructor supervision in a controlled environment." },
@@ -277,7 +254,19 @@ export const about = {
 export const trainingPage = {
   heading: "Training and Safety Education",
   intro: "Explore learning focused on firearm safety, responsible ownership, and accident prevention.",
-  servicesHeading: { lead: "Programmes and", accent: "services." },
+  hero: {
+    eyebrow: "Training & Safety Education",
+    headingLines: ["Training for a", "safer tomorrow"],
+    primary: { label: "Explore Programmes", href: "#programmes" },
+    secondary: { label: "Enquire Now", href: "/contact?type=Training" },
+  },
+  servicesHeading: { lead: "Programmes &", accent: "services." },
+  servicesIntro: "Build knowledge. Strengthen responsibility.",
+  cta: {
+    headingLines: ["Your next step starts", "with knowledge"],
+    text: "Speak with OGAAL about training enquiries.",
+    cta: { label: "Contact the Academy", href: "/contact?type=Training" },
+  },
 };
 
 export const training = [

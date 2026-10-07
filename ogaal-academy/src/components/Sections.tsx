@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, BadgeCheck, CalendarDays, Landmark } from "lucide-react";
+import { ArrowRight, ArrowUpRight, BadgeCheck, CalendarDays, Landmark } from "lucide-react";
 import { about, faqs, partnersSection, programme, safetyTopics, training } from "@/content/site";
 import { Accordion } from "./Accordion";
 import { Icon, type IconName } from "./Icon";
@@ -8,25 +9,78 @@ import { Reveal } from "./Reveal";
 type Training = (typeof training)[number];
 
 /* ---------------- Training cards ---------------- */
+/** 3D artwork used as a card picture where one exists; other cards show their animated icon large. */
+const cardArt: Partial<Record<Training["slug"], { src: string; width: number; height: number; className: string }>> = {
+  "safety-education": { src: "/images/3d/hero-shield-book.webp", width: 1147, height: 1095, className: "h-[88%] w-auto" },
+  "responsible-ownership": { src: "/images/3d/icon-people.webp", width: 408, height: 248, className: "h-auto w-[52%]" },
+};
+
 export function TrainingCard({ t, index = 0, withId = false }: { t: Training; index?: number; withId?: boolean }) {
+  const art = cardArt[t.slug];
   return (
-    <Reveal as="li" id={withId ? t.slug : undefined} delay={(index % 4) * 70} className="h-full scroll-mt-28">
-      <div className="card card-hover group flex h-full flex-col p-7">
-        <span className="icon-tile">
-          <Icon name={t.icon as IconName} />
-        </span>
-        <h3 className="mt-6 text-xl">{t.title}</h3>
-        <p className="mt-3 flex-1">{t.text}</p>
-        <Link
-          href={`/contact?type=Training&topic=${encodeURIComponent(t.title)}`}
-          className="mt-6 inline-flex items-center gap-2 self-start font-display text-sm font-bold text-blue"
-          aria-label={`Enquire about ${t.title}`}
-        >
-          Enquire
-          <ArrowRight size={16} aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1" />
-        </Link>
+    <Reveal as="li" id={withId ? t.slug : undefined} delay={(index % 3) * 90} className="h-full scroll-mt-28">
+      <div className="card card-hover group flex h-full flex-col p-3">
+        <div className="card-visual relative grid aspect-[16/10] place-items-center overflow-hidden rounded-[0.95rem]">
+          <svg aria-hidden="true" viewBox="0 0 300 190" className="absolute inset-0 h-full w-full text-blue/10" preserveAspectRatio="xMidYMid slice">
+            <circle cx="150" cy="95" r="90" fill="none" stroke="currentColor" strokeWidth="1.5" />
+            <circle cx="150" cy="95" r="60" fill="none" stroke="currentColor" strokeWidth="1.5" />
+          </svg>
+          {art ? (
+            <Image src={art.src} alt="" width={art.width} height={art.height} sizes="320px" className={`relative transition-transform duration-500 group-hover:scale-105 ${art.className}`} />
+          ) : (
+            <span aria-hidden="true" className="icon-3d-big relative transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-105">
+              <Icon name={t.icon as IconName} size={56} strokeWidth={1.6} />
+            </span>
+          )}
+        </div>
+        <div className="flex flex-1 flex-col px-4 pt-6 pb-4">
+          <h3 className="text-xl">{t.title}</h3>
+          <p className="mt-3 flex-1">{t.text}</p>
+          <Link
+            href={`/contact?type=Training&topic=${encodeURIComponent(t.title)}`}
+            className="mt-6 inline-flex items-center gap-2 self-start font-display text-[0.95rem] font-bold text-blue"
+            aria-label={`Enquire about ${t.title}`}
+          >
+            Enquire about training
+            <ArrowUpRight size={17} aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
+        </div>
       </div>
     </Reveal>
+  );
+}
+
+/* ---------------- Rounded navy call-to-action panel ---------------- */
+export function CtaPanel({ headingLines, text, cta }: { headingLines: readonly string[]; text: string; cta: { label: string; href: string } }) {
+  return (
+    <section aria-labelledby="cta-panel-title" className="bg-white pb-20 lg:pb-24">
+      <div className="container-x">
+        <Reveal className="navy-panel on-dark relative overflow-hidden rounded-[1.5rem] px-7 py-12 sm:px-12 lg:py-14">
+          <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full text-blue/40" viewBox="0 0 800 220" preserveAspectRatio="none">
+            <path d="M380 220 C 520 120, 640 60, 800 40" fill="none" stroke="currentColor" strokeWidth="1" />
+            <path d="M440 220 C 560 140, 680 90, 800 80" fill="none" stroke="currentColor" strokeWidth="1" />
+            <path d="M500 220 C 600 160, 700 120, 800 120" fill="none" stroke="currentColor" strokeWidth="1" />
+          </svg>
+          <div className="relative flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <h2 id="cta-panel-title" className="text-3xl !text-white sm:text-5xl">
+                {headingLines.map((l, i) => (
+                  <span key={l} className="block">
+                    {l}
+                    {i === headingLines.length - 1 && <span aria-hidden="true" className="blink-square ml-[0.06em] inline-block h-[0.16em] w-[0.16em] bg-blue" />}
+                  </span>
+                ))}
+              </h2>
+              <p className="mt-4 text-lg text-white/80 sm:text-xl">{text}</p>
+            </div>
+            <Link href={cta.href} className="btn btn-primary btn-pill shrink-0 self-start !px-8 lg:self-center">
+              {cta.label}
+              <ArrowRight size={18} aria-hidden="true" />
+            </Link>
+          </div>
+        </Reveal>
+      </div>
+    </section>
   );
 }
 
