@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { closingCta, programme, trainingPage } from "@/content/site";
+import { closingCta, trainingPage } from "@/content/site";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionHeading } from "@/components/SectionHeading";
-import { ClosingCta, ProgrammeDays, TrainingGridAll } from "@/components/Sections";
+import { ClosingCta, TrainingGridAll } from "@/components/Sections";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -21,19 +21,6 @@ export default function TrainingPage() {
         <div className="container-x">
           <SectionHeading id="services-title" eyebrow="What we offer" lead={trainingPage.servicesHeading.lead} accent={trainingPage.servicesHeading.accent} intro={trainingPage.servicesIntro} />
           <TrainingGridAll />
-        </div>
-      </section>
-
-      <section id="programme" aria-labelledby="programme-title" className="scroll-mt-24 bg-light py-14 lg:py-20">
-        <div className="container-x">
-          <SectionHeading
-            id="programme-title"
-            eyebrow="Programme"
-            lead={programme.heading.lead}
-            accent={programme.heading.accent}
-            intro="An educational overview of the two days. Detailed content is covered in class under instructor supervision."
-          />
-          <ProgrammeDays />
         </div>
       </section>
 
