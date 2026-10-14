@@ -181,6 +181,20 @@ export const training = [
   { slug: "organisational-refresher", icon: "building", title: "Organisational and Refresher Training", text: "Enquire about education for your team or refresher learning to reinforce safety awareness." },
 ] as const;
 
+/** Topics shown in the scrolling band on the home page (all taken from the two-day programme). */
+export const safetyTopics = [
+  { icon: "pistol", text: "Firearm safety" },
+  { icon: "rifle", text: "Firearm identification" },
+  { icon: "bullets", text: "Safety rules and procedures" },
+  { icon: "pistolLock", text: "Safe storage" },
+  { icon: "bullet", text: "Responsible transportation" },
+  { icon: "scale", text: "Legal responsibilities" },
+  { icon: "target", text: "Practical safety exercises" },
+  { icon: "pistol", text: "Supervised demonstrations" },
+  { icon: "bulletCheck", text: "Safety assessment" },
+  { icon: "award", text: "Certification" },
+] as const;
+
 export const programme = {
   heading: { lead: "Two-Day", accent: "Programme" },
   days: [

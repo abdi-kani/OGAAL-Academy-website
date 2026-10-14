@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { about, faqs, programme, training } from "@/content/site";
+import { about, faqs, programme, safetyTopics, training } from "@/content/site";
 import { Accordion } from "./Accordion";
 import { Icon, type IconName } from "./Icon";
 import { Reveal } from "./Reveal";
@@ -23,7 +23,7 @@ export function TrainingCard({ t, index = 0, withId = false }: { t: Training; in
           aria-label={`Enquire about ${t.title}`}
         >
           Enquire
-          <ArrowRight size={16} aria-hidden="true" />
+          <ArrowRight size={16} aria-hidden="true" className="nudge" />
         </Link>
       </div>
     </Reveal>
@@ -40,7 +40,7 @@ export function TrainingGridAll() {
         <TrainingCard key={t.slug} t={t} index={i} withId />
       ))}
       <Reveal as="li" id={last.slug} className="scroll-mt-28 sm:col-span-2 lg:col-span-3">
-        <div className="card flex flex-col gap-5 bg-light p-6 md:flex-row md:items-center md:justify-between">
+        <div className="card card-hover flex flex-col gap-5 bg-light p-6 md:flex-row md:items-center md:justify-between">
           <div className="flex items-start gap-4">
             <span className="icon-tile icon-tile-lg bg-white">
               <Icon name={last.icon as IconName} size={30} />
@@ -57,6 +57,35 @@ export function TrainingGridAll() {
         </div>
       </Reveal>
     </ul>
+  );
+}
+
+/* ---------------- Scrolling band of programme topics ---------------- */
+export function SafetyMarquee() {
+  const row = (copy: number) => (
+    <ul className="marquee-row" role="list" aria-hidden={copy > 0 || undefined}>
+      {safetyTopics.map((t) => (
+        <li key={t.text} className="marquee-pill">
+          <span className="icon-tile !h-9 !w-9 !rounded-full">
+            <Icon name={t.icon} size={18} live />
+          </span>
+          {t.text}
+        </li>
+      ))}
+    </ul>
+  );
+  return (
+    <section aria-label="Topics covered in training" className="border-y border-line bg-light py-8">
+      <Reveal className="container-x">
+        <p className="eyebrow">Covered in training</p>
+      </Reveal>
+      <div className="marquee mt-4">
+        <div className="marquee-track">
+          {row(0)}
+          {row(1)}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -78,7 +107,7 @@ export function ProgrammeDays() {
             </div>
             <ul className="mt-6 grid gap-3 border-t border-line pt-6" role="list">
               {d.items.map((item) => (
-                <li key={item.text} className="flex items-center gap-3 text-navy">
+                <li key={item.text} className="group flex items-center gap-3 rounded-lg text-navy">
                   <span className="icon-tile !h-10 !w-10" aria-hidden="true">
                     <Icon name={item.icon as IconName} size={20} />
                   </span>
@@ -105,7 +134,7 @@ export function ValuesGrid() {
   return (
     <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5" role="list">
       {about.values.map((v, i) => (
-        <Reveal as="li" key={v.title} delay={i * 60} className="card p-6">
+        <Reveal as="li" key={v.title} delay={i * 60} className="card card-hover p-6">
           <span className="icon-tile">
             <Icon name={v.icon as IconName} />
           </span>
@@ -122,7 +151,7 @@ export function ApproachList() {
   return (
     <ol className="grid gap-4" role="list">
       {about.approach.items.map((it, i) => (
-        <Reveal as="li" key={it.title} delay={i * 50} className="card flex items-start gap-5 p-6">
+        <Reveal as="li" key={it.title} delay={i * 50} className="card card-hover flex items-start gap-5 p-6">
           <span className="icon-tile">
             <Icon name={it.icon as IconName} />
           </span>
@@ -145,19 +174,32 @@ export function FaqList({ items = faqs }: { items?: { q: string; a: string }[] }
 /* ---------------- Closing call to action ---------------- */
 export function ClosingCta({ heading, text, cta }: { heading: string; text: string; cta: { label: string; href: string } }) {
   return (
-    <section aria-labelledby="closing-title" className="py-16 lg:py-20">
+    <section aria-labelledby="closing-title" className="py-14 lg:py-20">
       <div className="container-x">
-        <Reveal className="on-dark flex flex-col items-start gap-6 rounded-[var(--radius-card)] bg-blue px-7 py-10 sm:px-10 lg:flex-row lg:items-center lg:justify-between lg:py-12">
-          <div className="max-w-2xl">
-            <h2 id="closing-title" className="text-3xl !text-white sm:text-4xl">
-              {heading}
-            </h2>
-            <p className="mt-3 text-lg text-white/85">{text}</p>
+        <Reveal className="on-dark relative overflow-hidden rounded-[var(--radius-card)] bg-blue px-7 py-10 sm:px-10 lg:py-12">
+          <svg aria-hidden="true" viewBox="0 0 200 200" className="spin-slow absolute top-1/2 -right-16 h-[26rem] w-[26rem] -translate-y-1/2 text-white/15">
+            <circle cx="100" cy="100" r="98" fill="none" stroke="currentColor" strokeWidth="0.6" strokeDasharray="2 5" />
+            <circle cx="100" cy="100" r="70" fill="none" stroke="currentColor" strokeWidth="0.6" />
+            <circle cx="100" cy="2" r="2.4" fill="currentColor" />
+          </svg>
+          <span aria-hidden="true" className="float-b absolute top-6 right-[22%] hidden h-14 w-14 place-items-center rounded-2xl bg-white/15 text-white lg:grid">
+            <Icon name="pistol" size={28} live />
+          </span>
+          <span aria-hidden="true" className="float-c absolute right-[8%] bottom-6 hidden h-12 w-12 place-items-center rounded-2xl bg-white/15 text-white lg:grid">
+            <Icon name="bullet" size={24} live />
+          </span>
+          <div className="relative flex flex-col items-start gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="max-w-2xl">
+              <h2 id="closing-title" className="text-3xl !text-white sm:text-4xl">
+                {heading}
+              </h2>
+              <p className="mt-3 text-lg text-white/85">{text}</p>
+            </div>
+            <Link href={cta.href} className="group btn btn-white shrink-0 lg:mr-[26%]">
+              {cta.label}
+              <ArrowRight size={18} aria-hidden="true" className="nudge" />
+            </Link>
           </div>
-          <Link href={cta.href} className="btn btn-white shrink-0">
-            {cta.label}
-            <ArrowRight size={18} aria-hidden="true" />
-          </Link>
         </Reveal>
       </div>
     </section>

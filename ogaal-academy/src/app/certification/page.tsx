@@ -20,7 +20,7 @@ export default function CertificationPage() {
     <>
       <PageHeader crumb="Certification" eyebrow="Certification" title={certification.heading} intro={<p>{certification.intro}</p>} icon="bulletCheck" />
 
-      <section aria-labelledby="cert-req-title" className="py-16 lg:py-24">
+      <section aria-labelledby="cert-req-title" className="py-14 lg:py-20">
         <div className="container-x">
           <SectionHeading id="cert-req-title" eyebrow="Requirements" lead={certification.requirementsHeading.lead} accent={certification.requirementsHeading.accent} />
           <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" role="list">
@@ -36,7 +36,7 @@ export default function CertificationPage() {
         </div>
       </section>
 
-      <section aria-label="What the certificate confirms and trainee conduct" className="bg-light py-16 lg:py-24">
+      <section aria-label="What the certificate confirms and trainee conduct" className="bg-light py-14 lg:py-20">
         <div className="container-x grid gap-4 lg:grid-cols-2">
           <Reveal className="card p-7 sm:p-8">
             <span className="icon-tile">

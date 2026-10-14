@@ -3,11 +3,11 @@ import Link from "next/link";
 import { Icon, type IconName } from "./Icon";
 import { Reveal } from "./Reveal";
 
-/** Inner-page header: breadcrumb, eyebrow, heading and intro, with one large line icon beside it. */
+/** Inner-page header: breadcrumb, eyebrow, heading and intro, with one large animated icon beside it. */
 export function PageHeader({ eyebrow, title, intro, crumb, icon }: { eyebrow: string; title: ReactNode; intro?: ReactNode; crumb: string; icon: IconName }) {
   return (
-    <section className="border-b border-line bg-light">
-      <div className="container-x grid items-center gap-8 py-14 lg:grid-cols-[1fr_auto] lg:py-20">
+    <section className="pattern-icons border-b border-line bg-light">
+      <div className="container-x grid items-center gap-8 py-12 lg:grid-cols-[1fr_auto] lg:py-16">
         <div>
           <nav aria-label="Breadcrumb">
             <ol className="flex items-center gap-2 text-sm">
@@ -29,9 +29,15 @@ export function PageHeader({ eyebrow, title, intro, crumb, icon }: { eyebrow: st
           </Reveal>
         </div>
         <Reveal delay={100} className="hidden lg:block">
-          <span className="grid h-44 w-44 place-items-center rounded-[2rem] border border-line bg-white text-blue" aria-hidden="true">
-            <Icon name={icon} size={88} strokeWidth={1.25} />
-          </span>
+          <div className="relative grid h-48 w-48 place-items-center">
+            <svg aria-hidden="true" viewBox="0 0 100 100" className="spin-slow absolute inset-0 h-full w-full text-blue/35">
+              <circle cx="50" cy="50" r="49" fill="none" stroke="currentColor" strokeWidth="0.8" strokeDasharray="2 5" />
+              <circle cx="50" cy="1" r="1.8" fill="currentColor" />
+            </svg>
+            <span className="float-a pulse-rings grid h-36 w-36 place-items-center rounded-[2rem] border border-line bg-white text-blue" aria-hidden="true">
+              <Icon name={icon} size={76} strokeWidth={1.25} live />
+            </span>
+          </div>
         </Reveal>
       </div>
     </section>

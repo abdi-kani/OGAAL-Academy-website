@@ -8,7 +8,7 @@ import { Reveal } from "./Reveal";
 export function PartnersSection({ withHeading = true }: { withHeading?: boolean }) {
   const s = partnersSection;
   return (
-    <section id="partners" aria-labelledby={withHeading ? "partners-title" : undefined} className="scroll-mt-24 bg-light py-16 lg:py-24">
+    <section id="partners" aria-labelledby={withHeading ? "partners-title" : undefined} className="pattern-icons scroll-mt-24 bg-light py-14 lg:py-20">
       <div className="container-x">
         {withHeading && (
           <Reveal className="max-w-2xl">
@@ -21,7 +21,7 @@ export function PartnersSection({ withHeading = true }: { withHeading?: boolean 
         )}
         <ul className={`grid gap-4 ${withHeading ? "mt-10" : ""}`} role="list">
           {s.partners.map((p) => (
-            <Reveal as="li" key={p.name} className="card grid gap-6 p-6 sm:p-8 lg:grid-cols-[auto_1fr] lg:gap-8">
+            <Reveal as="li" key={p.name} className="card card-hover grid gap-6 p-6 sm:p-8 lg:grid-cols-[auto_1fr] lg:gap-8">
               <span className="icon-tile icon-tile-lg h-20 w-20 rounded-[1.25rem]" aria-hidden="true">
                 <Icon name="landmark" size={40} strokeWidth={1.5} />
               </span>

@@ -24,7 +24,7 @@ export default function FaqPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <PageHeader crumb="FAQs" eyebrow="Help" title="Frequently Asked Questions" intro={<p>Quick answers about the programme, admission, certificates, and fees.</p>} icon="bullet" />
-      <section aria-label="Questions and answers" className="py-16 lg:py-24">
+      <section aria-label="Questions and answers" className="pattern-icons py-14 lg:py-20">
         <div className="container-x grid gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
           <div>
             <SectionHeading lead="Still have a" accent="question?" intro="Our team can help with training dates, admission requirements, and organisational enquiries." />

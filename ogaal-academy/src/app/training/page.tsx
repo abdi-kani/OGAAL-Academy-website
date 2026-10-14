@@ -17,14 +17,14 @@ export default function TrainingPage() {
     <>
       <PageHeader crumb="Training" eyebrow="Training" title={trainingPage.heading} intro={<p>{trainingPage.intro}</p>} icon="bullets" />
 
-      <section id="programmes" aria-labelledby="services-title" className="scroll-mt-24 py-16 lg:py-24">
+      <section id="programmes" aria-labelledby="services-title" className="pattern-icons scroll-mt-24 py-14 lg:py-20">
         <div className="container-x">
           <SectionHeading id="services-title" eyebrow="What we offer" lead={trainingPage.servicesHeading.lead} accent={trainingPage.servicesHeading.accent} intro={trainingPage.servicesIntro} />
           <TrainingGridAll />
         </div>
       </section>
 
-      <section id="programme" aria-labelledby="programme-title" className="scroll-mt-24 bg-light py-16 lg:py-24">
+      <section id="programme" aria-labelledby="programme-title" className="scroll-mt-24 bg-light py-14 lg:py-20">
         <div className="container-x">
           <SectionHeading
             id="programme-title"

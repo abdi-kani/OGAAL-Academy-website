@@ -20,7 +20,7 @@ export default function AboutPage() {
       <PageHeader crumb="About Us" eyebrow="About Us" title={about.heading} intro={<p>{about.intro[0]}</p>} icon="target" />
 
       {/* Introduction, mission and vision */}
-      <section aria-label="Introduction" className="py-16 lg:py-24">
+      <section aria-label="Introduction" className="pattern-icons py-14 lg:py-20">
         <div className="container-x grid gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
           <Reveal>
             <p className="eyebrow">Who we are</p>
@@ -52,7 +52,7 @@ export default function AboutPage() {
       </section>
 
       {/* Core values */}
-      <section aria-labelledby="values-title" className="bg-light py-16 lg:py-24">
+      <section aria-labelledby="values-title" className="bg-light py-14 lg:py-20">
         <div className="container-x">
           <SectionHeading id="values-title" eyebrow="Core values" lead="What guides" accent="our work." />
           <ValuesGrid />
@@ -60,7 +60,7 @@ export default function AboutPage() {
       </section>
 
       {/* Training approach */}
-      <section id="approach" aria-labelledby="approach-title" className="scroll-mt-24 py-16 lg:py-24">
+      <section id="approach" aria-labelledby="approach-title" className="scroll-mt-24 py-14 lg:py-20">
         <div className="container-x grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <SectionHeading id="approach-title" eyebrow="How we teach" lead={about.approach.heading.lead} accent={about.approach.heading.accent} intro={about.approach.intro} />
           <ApproachList />
