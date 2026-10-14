@@ -146,19 +146,28 @@ export function ValuesGrid() {
   );
 }
 
-/* ---------------- Training approach ---------------- */
+/* ---------------- Training approach: numbered timeline ---------------- */
 export function ApproachList() {
   return (
-    <ol className="grid gap-4" role="list">
+    <ol className="timeline grid gap-4" role="list">
       {about.approach.items.map((it, i) => (
-        <Reveal as="li" key={it.title} delay={i * 50} className="card card-hover flex items-start gap-5 p-6">
-          <span className="icon-tile">
-            <Icon name={it.icon as IconName} />
+        <Reveal as="li" key={it.title} delay={i * 70} className="timeline-item group relative flex items-start gap-5">
+          <span className="timeline-num shrink-0" aria-hidden="true">
+            {String(i + 1).padStart(2, "0")}
           </span>
-          <div>
-            <p className="eyebrow">Step {i + 1}</p>
-            <h3 className="mt-1 text-lg">{it.title}</h3>
-            <p className="mt-1.5">{it.text}</p>
+          <div className="card card-hover relative flex-1 overflow-hidden p-6">
+            <span className="timeline-ghost" aria-hidden="true">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <div className="flex items-start gap-4">
+              <span className="icon-tile">
+                <Icon name={it.icon as IconName} />
+              </span>
+              <div>
+                <h3 className="text-lg">{it.title}</h3>
+                <p className="mt-1.5">{it.text}</p>
+              </div>
+            </div>
           </div>
         </Reveal>
       ))}

@@ -4,6 +4,7 @@ import { Icon } from "@/components/Icon";
 import { PageHeader } from "@/components/PageHeader";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
+import { TrainingScene } from "@/components/TrainingScene";
 import { ApproachList, ClosingCta, ValuesGrid } from "@/components/Sections";
 import { pageMetadata } from "@/lib/seo";
 
@@ -60,9 +61,14 @@ export default function AboutPage() {
       </section>
 
       {/* Training approach */}
-      <section id="approach" aria-labelledby="approach-title" className="scroll-mt-24 py-14 lg:py-20">
-        <div className="container-x grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-          <SectionHeading id="approach-title" eyebrow="How we teach" lead={about.approach.heading.lead} accent={about.approach.heading.accent} intro={about.approach.intro} />
+      <section id="approach" aria-labelledby="approach-title" className="pattern-icons scroll-mt-24 py-14 lg:py-20">
+        <div className="container-x grid items-start gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
+          <div className="lg:sticky lg:top-28">
+            <SectionHeading id="approach-title" eyebrow="How we teach" lead={about.approach.heading.lead} accent={about.approach.heading.accent} intro={about.approach.intro} />
+            <Reveal delay={120} className="mt-8">
+              <TrainingScene />
+            </Reveal>
+          </div>
           <ApproachList />
         </div>
       </section>
