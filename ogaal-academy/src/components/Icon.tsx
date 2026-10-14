@@ -45,10 +45,10 @@ const icons = {
 export type IconName = keyof typeof icons | ArmsIconName;
 
 /** One outline icon set: Lucide plus the firearm-safety icons, all at 1.75 stroke. */
-export function Icon({ name, ...props }: { name: IconName } & LucideProps) {
+export function Icon({ name, live, ...props }: { name: IconName; live?: boolean } & LucideProps) {
   if (isArmsIcon(name)) {
     const { size, strokeWidth, className, style } = props;
-    return <ArmsIcon name={name} size={size} strokeWidth={strokeWidth} className={className} style={style} />;
+    return <ArmsIcon name={name} live={live} size={size} strokeWidth={strokeWidth} className={className} style={style} />;
   }
   const Cmp = icons[name];
   return <Cmp aria-hidden="true" strokeWidth={1.75} size={24} {...props} />;
