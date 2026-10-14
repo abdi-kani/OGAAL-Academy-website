@@ -60,7 +60,7 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b bg-white transition-colors duration-200 ${scrolled || open ? "border-line" : "border-transparent"}`}
+      className={`on-dark sticky top-0 z-50 border-b border-white/10 bg-navy/95 backdrop-blur-md transition-shadow duration-200 ${scrolled || open ? "shadow-[0_10px_30px_-18px_rgb(0_0_0/0.7)]" : ""}`}
     >
       <a
         href="#main"
@@ -70,7 +70,7 @@ export function Header() {
       </a>
       <div className="container-x flex h-20 items-center justify-between gap-6 lg:h-[5.5rem]">
         <Link href="/" aria-label="OGAAL Academy — home" className="shrink-0 rounded-lg">
-          <Logo priority />
+          <Logo priority tone="dark" />
         </Link>
 
         <nav aria-label="Main" className="hidden lg:block">
@@ -82,7 +82,7 @@ export function Header() {
                   <Link
                     href={item.href}
                     aria-current={active ? "page" : undefined}
-                    className={`block rounded-lg px-3.5 py-2 font-display text-[0.98rem] font-semibold transition-colors ${active ? "bg-blue-50 text-blue" : "text-navy hover:text-blue"}`}
+                    className={`block rounded-lg px-3.5 py-2 font-display text-[0.98rem] font-semibold transition-colors ${active ? "bg-white/10 text-white" : "text-white/75 hover:bg-white/5 hover:text-white"}`}
                   >
                     {item.label}
                   </Link>
@@ -100,7 +100,7 @@ export function Header() {
           <button
             ref={toggleRef}
             type="button"
-            className="inline-grid h-12 w-12 place-items-center rounded-full text-navy transition-colors hover:bg-blue-50 lg:hidden"
+            className="inline-grid h-12 w-12 place-items-center rounded-full text-white transition-colors hover:bg-white/10 lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? "Close menu" : "Open menu"}
@@ -121,7 +121,7 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
             transition={{ duration: reduce ? 0 : 0.2, ease: "easeOut" }}
-            className="border-t border-line bg-white lg:hidden"
+            className="border-t border-white/10 bg-navy lg:hidden"
           >
             <nav aria-label="Mobile" className="container-x max-h-[calc(100dvh-5rem)] overflow-y-auto py-3">
               <ul className="flex flex-col">
@@ -132,12 +132,12 @@ export function Header() {
                       <Link
                         href={item.href}
                         aria-current={active ? "page" : undefined}
-                        className={`flex min-h-14 items-center justify-between border-b border-line font-display text-lg font-bold ${
-                          active ? "text-blue" : "text-navy"
+                        className={`flex min-h-14 items-center justify-between border-b border-white/10 font-display text-lg font-bold ${
+                          active ? "text-white" : "text-white/75"
                         }`}
                       >
                         {item.label}
-                        {active && <span className="h-2 w-2 rounded-full bg-blue" aria-hidden="true" />}
+                        {active && <span className="h-2 w-2 rounded-full bg-[#8fb6ff]" aria-hidden="true" />}
                       </Link>
                     </li>
                   );

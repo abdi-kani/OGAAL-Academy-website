@@ -8,17 +8,17 @@ export function HeroTiles() {
   return (
     <div className="relative mx-auto w-full max-w-md">
       {/* rings and pulses behind the tiles */}
-      <svg aria-hidden="true" viewBox="0 0 200 200" className="spin-slow absolute inset-[-8%] h-[116%] w-[116%] text-blue/30">
+      <svg aria-hidden="true" viewBox="0 0 200 200" className="spin-slow absolute inset-[-8%] h-[116%] w-[116%] text-white/30">
         <circle cx="100" cy="100" r="98" fill="none" stroke="currentColor" strokeWidth="0.7" strokeDasharray="2 6" />
         <circle cx="100" cy="2" r="2.6" fill="currentColor" />
         <circle cx="198" cy="100" r="1.8" fill="currentColor" />
       </svg>
-      <svg aria-hidden="true" viewBox="0 0 200 200" className="spin-slow-rev absolute inset-[2%] h-[96%] w-[96%] text-blue/20">
+      <svg aria-hidden="true" viewBox="0 0 200 200" className="spin-slow-rev absolute inset-[2%] h-[96%] w-[96%] text-white/20">
         <circle cx="100" cy="100" r="98" fill="none" stroke="currentColor" strokeWidth="0.8" />
-        <circle cx="30.7" cy="169.3" r="2.2" fill="#0755e9" />
+        <circle cx="30.7" cy="169.3" r="2.2" fill="#8fb6ff" />
       </svg>
-      <span aria-hidden="true" className="sonar absolute inset-[28%] rounded-full border-2 border-blue/30" />
-      <span aria-hidden="true" className="sonar absolute inset-[28%] rounded-full border-2 border-blue/30 [animation-delay:1.6s]" />
+      <span aria-hidden="true" className="sonar absolute inset-[28%] rounded-full border-2 border-white/30" />
+      <span aria-hidden="true" className="sonar absolute inset-[28%] rounded-full border-2 border-white/30 [animation-delay:1.6s]" />
 
       <ul className="relative grid grid-cols-2 gap-4" role="list">
         {hero.tiles.map((t, i) => (

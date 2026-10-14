@@ -42,7 +42,7 @@ export function TrainingGridAll() {
       <Reveal as="li" id={last.slug} className="scroll-mt-28 sm:col-span-2 lg:col-span-3">
         <div className="card card-hover flex flex-col gap-5 bg-light p-6 md:flex-row md:items-center md:justify-between">
           <div className="flex items-start gap-4">
-            <span className="icon-tile icon-tile-lg bg-white">
+            <span className="icon-tile icon-tile-lg">
               <Icon name={last.icon as IconName} size={30} />
             </span>
             <div className="max-w-2xl">
@@ -66,7 +66,7 @@ export function SafetyMarquee() {
     <ul className="marquee-row" role="list" aria-hidden={copy > 0 || undefined}>
       {safetyTopics.map((t) => (
         <li key={t.text} className="marquee-pill">
-          <span className="icon-tile !h-9 !w-9 !rounded-full">
+          <span className="icon-tile !h-9 !w-9 !rounded-full !shadow-none">
             <Icon name={t.icon} size={18} live />
           </span>
           {t.text}
@@ -75,7 +75,7 @@ export function SafetyMarquee() {
     </ul>
   );
   return (
-    <section aria-label="Topics covered in training" className="border-y border-line bg-light py-8">
+    <section aria-label="Topics covered in training" className="on-dark bg-navy py-8">
       <Reveal className="container-x">
         <p className="eyebrow">Covered in training</p>
       </Reveal>
@@ -176,7 +176,7 @@ export function ClosingCta({ heading, text, cta }: { heading: string; text: stri
   return (
     <section aria-labelledby="closing-title" className="py-14 lg:py-20">
       <div className="container-x">
-        <Reveal className="on-dark relative overflow-hidden rounded-[var(--radius-card)] bg-blue px-7 py-10 sm:px-10 lg:py-12">
+        <Reveal className="on-dark relative overflow-hidden rounded-[var(--radius-card)] bg-gradient-to-br from-[#2f7bff] via-blue to-[#062d8a] px-7 py-10 shadow-[0_30px_60px_-30px_rgb(7_85_233/0.8)] sm:px-10 lg:py-12">
           <svg aria-hidden="true" viewBox="0 0 200 200" className="spin-slow absolute top-1/2 -right-16 h-[26rem] w-[26rem] -translate-y-1/2 text-white/15">
             <circle cx="100" cy="100" r="98" fill="none" stroke="currentColor" strokeWidth="0.6" strokeDasharray="2 5" />
             <circle cx="100" cy="100" r="70" fill="none" stroke="currentColor" strokeWidth="0.6" />

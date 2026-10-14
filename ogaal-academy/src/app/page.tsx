@@ -23,15 +23,15 @@ export default function HomePage() {
   return (
     <>
       {/* ---------------- Hero ---------------- */}
-      <section aria-labelledby="hero-title" className="pattern-icons border-b border-line bg-light">
+      <section aria-labelledby="hero-title" className="navy-panel on-dark pattern-icons pattern-icons-dark">
         <div className="container-x grid items-center gap-12 py-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16 lg:py-20">
           <Reveal>
             <p className="eyebrow">{hero.eyebrow}</p>
             <h1 id="hero-title" className="mt-5 text-[2.6rem] leading-[1.05] sm:text-6xl">
               <span className="block">{hero.headingLines[0]}</span>
-              <span className="block text-blue">{hero.headingLines[1]}</span>
+              <span className="block text-[#8fb6ff]">{hero.headingLines[1]}</span>
             </h1>
-            <p className="mt-6 font-display text-xl font-semibold text-navy">{hero.subtitle}</p>
+            <p className="mt-6 font-display text-xl font-semibold text-white">{hero.subtitle}</p>
             <p className="mt-3 max-w-lg text-lg">{hero.description}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href={hero.primary.href} className="group btn btn-primary">
@@ -99,7 +99,7 @@ export default function HomePage() {
       </section>
 
       {/* ---------------- Training preview ---------------- */}
-      <section aria-labelledby="training-title" className="bg-light py-14 lg:py-20">
+      <section aria-labelledby="training-title" className="pattern-icons bg-light py-14 lg:py-20">
         <div className="container-x">
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <SectionHeading id="training-title" eyebrow="Training" lead="Training and safety" accent="education." />
@@ -119,7 +119,7 @@ export default function HomePage() {
       </section>
 
       {/* ---------------- Two-day programme ---------------- */}
-      <section aria-labelledby="programme-title" className="pattern-icons py-14 lg:py-20">
+      <section aria-labelledby="programme-title" className="navy-panel on-dark pattern-icons pattern-icons-dark py-14 lg:py-20">
         <div className="container-x">
           <SectionHeading id="programme-title" eyebrow="Programme" lead={programme.heading.lead} accent={programme.heading.accent} />
           <ProgrammeDays />
