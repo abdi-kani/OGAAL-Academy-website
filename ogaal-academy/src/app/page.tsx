@@ -7,7 +7,8 @@ import { Icon } from "@/components/Icon";
 import { PartnersSection } from "@/components/PartnersSection";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import { ClosingCta, ProgrammeDays, SafetyMarquee, TrainingCard } from "@/components/Sections";
+import { ProgrammeVideo } from "@/components/ProgrammeVideo";
+import { ClosingCta, SafetyMarquee, TrainingCard } from "@/components/Sections";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -121,8 +122,10 @@ export default function HomePage() {
       {/* ---------------- Two-day programme ---------------- */}
       <section aria-labelledby="programme-title" className="navy-panel on-dark pattern-icons pattern-icons-dark py-14 lg:py-20">
         <div className="container-x">
-          <SectionHeading id="programme-title" eyebrow="Programme" lead={programme.heading.lead} accent={programme.heading.accent} />
-          <ProgrammeDays />
+          <SectionHeading id="programme-title" eyebrow="Programme" lead={programme.heading.lead} accent={programme.heading.accent} intro="Watch how the two days unfold, chapter by chapter." />
+          <div className="mt-10">
+            <ProgrammeVideo />
+          </div>
         </div>
       </section>
 

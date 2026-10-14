@@ -6,7 +6,7 @@
 export function TrainingScene({ className = "" }: { className?: string }) {
   return (
     <div className={`scene relative overflow-hidden rounded-[var(--radius-card)] ${className}`} aria-hidden="true">
-      <svg viewBox="0 0 480 320" className="h-auto w-full" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg viewBox="0 0 480 320" preserveAspectRatio="xMidYMid slice" className="h-auto w-full" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         {/* background rings */}
         <g className="scene-spin text-white/15" style={{ transformOrigin: "360px 150px" }}>
           <circle cx="360" cy="150" r="120" strokeDasharray="3 7" strokeWidth="1" />
