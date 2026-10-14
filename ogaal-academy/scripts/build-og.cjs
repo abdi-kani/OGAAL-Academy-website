@@ -1,5 +1,5 @@
 // Renders the 1200×630 social sharing image (src/app/opengraph-image.png) from HTML,
-// using the official logo, the 3D artwork and the site fonts.
+// using the official logo and the site fonts.
 // Usage: node scripts/build-og.cjs
 const fs = require("fs");
 const path = require("path");
@@ -25,13 +25,13 @@ h1 em{font-style:normal;color:#0755E9;display:block}
 p{position:absolute;left:72px;top:375px;margin:0;font-size:24px;color:#53627A;max-width:520px;line-height:1.4}
 .loc{position:absolute;left:72px;bottom:56px;display:flex;align-items:center;gap:10px;font-family:Manrope;font-weight:700;font-size:20px}
 .loc i{width:36px;height:4px;border-radius:4px;background:#0755E9;display:block}
-.art{position:absolute;right:24px;top:70px;width:470px}
+.art{position:absolute;right:120px;top:115px;width:380px;height:400px;object-fit:contain}
 </style></head><body>
 <div class="logo"><img src="${f("public/brand/ogaal-mark.png")}"><div><b>OGAAL</b><span>Firearms Safety &amp; Responsibility Training Academy</span></div></div>
 <h1>Safety First.<em>Responsibility Always.</em></h1>
 <p>Professional safety education. Responsible ownership. Safer communities.</p>
 <div class="loc"><i></i>Mogadishu, Somalia</div>
-<img class="art" src="${f("public/images/3d/hero-shield-book.png")}">
+<img class="art" src="${f("public/brand/ogaal-logo.png")}">
 </body></html>`;
 
 (async () => {

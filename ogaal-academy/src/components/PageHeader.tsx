@@ -1,32 +1,13 @@
 import type { ReactNode } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { art } from "@/content/site";
+import { Icon, type IconName } from "./Icon";
 import { Reveal } from "./Reveal";
 
-/** Inner-page hero: pale-blue atmosphere, breadcrumb, large heading, optional 3D icon. */
-export function PageHeader({
-  eyebrow,
-  title,
-  intro,
-  crumb,
-  icon = "shield",
-}: {
-  eyebrow: string;
-  title: ReactNode;
-  intro?: ReactNode;
-  crumb: string;
-  icon?: keyof typeof art.icons;
-}) {
-  const a = art.icons[icon];
+/** Inner-page header: breadcrumb, eyebrow, heading and intro, with one large line icon beside it. */
+export function PageHeader({ eyebrow, title, intro, crumb, icon }: { eyebrow: string; title: ReactNode; intro?: ReactNode; crumb: string; icon: IconName }) {
   return (
-    <section className="sky relative overflow-hidden">
-      <svg aria-hidden="true" className="ripple pointer-events-none absolute top-0 right-0 h-full w-[60%] text-blue/10" viewBox="0 0 600 400" preserveAspectRatio="xMaxYMid slice">
-        <circle cx="520" cy="200" r="260" fill="none" stroke="currentColor" strokeWidth="2" />
-        <circle cx="520" cy="200" r="190" fill="none" stroke="currentColor" strokeWidth="2" />
-        <circle cx="520" cy="200" r="120" fill="none" stroke="currentColor" strokeWidth="2" />
-      </svg>
-      <div className="container-x relative grid items-center gap-10 py-14 sm:py-16 lg:grid-cols-[1fr_auto] lg:py-20">
+    <section className="border-b border-line bg-light">
+      <div className="container-x grid items-center gap-8 py-14 lg:grid-cols-[1fr_auto] lg:py-20">
         <div>
           <nav aria-label="Breadcrumb">
             <ol className="flex items-center gap-2 text-sm">
@@ -43,14 +24,14 @@ export function PageHeader({
           </nav>
           <Reveal className="mt-8 max-w-3xl">
             <p className="eyebrow">{eyebrow}</p>
-            <h1 className="mt-5 text-4xl sm:text-5xl lg:text-[3.6rem]">{title}</h1>
-            {intro && <div className="mt-6 max-w-2xl text-lg sm:text-xl">{intro}</div>}
+            <h1 className="mt-4 text-4xl sm:text-5xl">{title}</h1>
+            {intro && <div className="mt-5 max-w-2xl text-lg sm:text-xl">{intro}</div>}
           </Reveal>
         </div>
-        <Reveal delay={120} className="hidden lg:block">
-          <div className="relative grid h-56 w-56 place-items-center rounded-[2.5rem] bg-white/70 shadow-[var(--shadow-lift)] ring-1 ring-white backdrop-blur">
-            <Image src={a.src} alt="" width={a.width} height={a.height} className="h-auto max-h-36 w-auto max-w-40" sizes="160px" />
-          </div>
+        <Reveal delay={100} className="hidden lg:block">
+          <span className="grid h-44 w-44 place-items-center rounded-[2rem] border border-line bg-white text-blue" aria-hidden="true">
+            <Icon name={icon} size={88} strokeWidth={1.25} />
+          </span>
         </Reveal>
       </div>
     </section>

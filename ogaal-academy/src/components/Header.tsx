@@ -60,11 +60,7 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b transition-[background-color,box-shadow,border-color] duration-300 ${
-        scrolled || open
-          ? "border-line bg-white/85 shadow-[0_8px_30px_-18px_rgb(8_27_58/0.35)] backdrop-blur-xl"
-          : "border-transparent bg-white/60 backdrop-blur-md"
-      }`}
+      className={`sticky top-0 z-50 border-b bg-white transition-colors duration-200 ${scrolled || open ? "border-line" : "border-transparent"}`}
     >
       <a
         href="#main"
@@ -86,17 +82,9 @@ export function Header() {
                   <Link
                     href={item.href}
                     aria-current={active ? "page" : undefined}
-                    className={`nav-link relative block rounded-xl px-3.5 py-2 font-display text-[0.98rem] font-semibold transition-colors ${
-                      active ? "text-blue" : "text-navy hover:text-blue"
-                    }`}
+                    className={`block rounded-lg px-3.5 py-2 font-display text-[0.98rem] font-semibold transition-colors ${active ? "bg-blue-50 text-blue" : "text-navy hover:text-blue"}`}
                   >
                     {item.label}
-                    <span
-                      aria-hidden="true"
-                      className={`absolute inset-x-3.5 -bottom-1 h-[3px] origin-center rounded-full bg-blue transition-transform duration-300 ${
-                        active ? "scale-x-100" : "scale-x-0"
-                      }`}
-                    />
                   </Link>
                 </li>
               );
@@ -105,7 +93,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link href={headerCta.href} className="btn btn-primary btn-pill hidden !min-h-12 sm:inline-flex">
+          <Link href={headerCta.href} className="btn btn-primary hidden !min-h-11 sm:inline-flex">
             {headerCta.label}
             <ArrowRight size={18} aria-hidden="true" />
           </Link>

@@ -33,7 +33,7 @@ export default function ContactPage() {
 
   return (
     <>
-      <PageHeader crumb="Contact" eyebrow="Contact" title={contactPage.heading} intro={<p>{contactPage.intro}</p>} icon="people" />
+      <PageHeader crumb="Contact" eyebrow="Contact" title={contactPage.heading} intro={<p>{contactPage.intro}</p>} icon="pin" />
 
       <section aria-label="Enquiry form and contact details" className="bg-light py-16 lg:py-24">
         <div className="container-x grid gap-8 lg:grid-cols-[1.4fr_0.6fr] lg:gap-10">

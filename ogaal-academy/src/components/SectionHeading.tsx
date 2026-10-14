@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Reveal } from "./Reveal";
 
-/** Serif section title with a blue accent word and a short blue rule, as in the reference design. */
+/** Section title with a blue accent word, a short blue rule and an optional intro. */
 export function SectionHeading({
   eyebrow,
   lead,
@@ -22,8 +22,8 @@ export function SectionHeading({
   const center = align === "center";
   return (
     <Reveal className={`max-w-2xl ${center ? "mx-auto text-center" : ""}`}>
-      {eyebrow && <p className={`eyebrow ${center ? "eyebrow-plain" : ""}`}>{eyebrow}</p>}
-      <H id={id} className={`section-title text-[2.1rem] sm:text-5xl ${eyebrow ? "mt-4" : ""}`}>
+      {eyebrow && <p className="eyebrow">{eyebrow}</p>}
+      <H id={id} className={`text-3xl sm:text-4xl ${eyebrow ? "mt-4" : ""}`}>
         {lead} {accent && <span className="accent">{accent}</span>}
       </H>
       <span className={`rule mt-5 ${center ? "mx-auto" : ""}`} aria-hidden="true" />

@@ -30,9 +30,9 @@ npm start                    # http://localhost:3000
 
 | Route | Page |
 |---|---|
-| `/` | Home — hero with 3D artwork, intro cards, about/training/programme/admissions previews, call to action |
-| `/about` | About Us — introduction, mission, vision, core values, training approach |
-| `/training` | Training — seven programmes and services, Two-Day Programme (`/training#programme`) |
+| `/` | Home — hero with four icon tiles, intro cards, about preview, training preview, two-day programme, partners, call to action |
+| `/about` | About Us — introduction, mission and vision, core values, training approach |
+| `/training` | Training — seven programmes and services (`/training#programmes`), Two-Day Programme (`/training#programme`) |
 | `/partners` | Partners & Cooperation — Ministry of Internal Security card with agreement status (old `/admissions` redirects to `/contact`) |
 | `/certification` | Certification — requirements, what the certificate confirms, trainee conduct |
 | `/faq` | FAQs — accessible accordion (old `/faqs` redirects here) |
@@ -71,18 +71,13 @@ The academy's documents show two different fees ($100 and $150), so the site say
   - `public/brand/ogaal-mark.png`: the official shield, shown in the header next to the academy name set as text
   - `src/app/icon.png`, `apple-icon.png`, `favicon.ico`: favicons made from the shield
 - ⚠️ The supplied logo is a **low-resolution image (522×494 px)**. It is sharp at the sizes used on the site, but for print, signage and high-density screens please supply the **original vector file** (SVG, AI, EPS or PDF with vector paths). Then replace the source and run `npm run assets`.
-- **3D artwork:** the hero image (shield with check mark, open book, silver rings, blue spheres, podium) and the three small 3D icons are real 3D renders, saved as optimised static WebP images in `public/images/3d/`. The scene is in `scripts/render3d/scene.html`; re-render with `npm run render3d` (needs Playwright's Chromium). Text and buttons are always real HTML.
-- **Social sharing image:** `src/app/opengraph-image.png`, rebuilt with `npm run og`.
-
-### Photographs
-
-No photographs are included. The About page has one slot, which shows a clearly labelled placeholder until a **licensed** photo is supplied. To add one, put the file in `public/images/`, then set `photos.classroom.src` in `src/content/site.ts`. A shot brief is included next to each slot.
+- **Icons:** the design uses flat line icons only. Firearm-safety icons (cartridge, three cartridges, pistol, pistol with padlock, cartridge with tick, target, rifle) are drawn in `src/components/ArmsIcon.tsx`; everything else comes from Lucide via `src/components/Icon.tsx`. Content files refer to icons by name (for example `icon: "pistol"`).
+- **Social sharing image:** `src/app/opengraph-image.png`, rebuilt with `npm run og` (uses the official logo).
+- No photographs or 3D renders are used.
 
 ## 5. Enquiry forms and email delivery
 
-Two forms post to the server route `src/app/api/enquiry/route.ts`:
-- **Contact form** (`/contact`): Full Name, Email Address, Phone (optional), Enquiry Type, Message, consent.
-- **Admissions enquiry** (`/admissions`): Full Name, Email, Phone, Individual or Organisation, Organisation Name (only for organisations), Message, consent. It is an enquiry, not an application. The form tells visitors **not** to send ID documents, criminal-record or medical details, and it has no upload fields.
+The **contact form** (`/contact`) posts to the server route `src/app/api/enquiry/route.ts`: Full Name, Email Address, Phone (optional), Enquiry Type (Training, Admissions, Organisational Training, Certification, General), Message, consent. The admissions form code (`kind="admissions"`) remains in `EnquiryForm.tsx` and `src/lib/enquiry.ts` but no page uses it.
 
 What the server does:
 - Applies the same validation as the browser (`src/lib/enquiry.ts`).
@@ -158,7 +153,6 @@ When the domain is registered and pointed at the deployment:
 | 8 | **Training fee** | Confirm the correct fee ($100 or $150) before publishing a price |
 | 9 | **Privacy policy** | Approve a policy (the forms collect personal data), add the page, set `site.privacyPolicyHref` |
 | 10 | **Vector logo** | Original vector file of the official logo |
-| 11 | **Photographs** | Licensed photos of adult learners and instructors (optional; one slot on About) |
 | 12 | **Partners** | The Ministry of Internal Security cooperation is shown on `/partners` and the home page **without a status label** (`showStatus: false`). The agreement is not yet signed: confirm with the Ministry that they agree to being listed. Once signed, set `status: "signed"` and `showStatus: true` to show "Signed cooperation agreement". Don’t add the ministry’s emblem without written permission. |
 
 ## 9. Content rules followed
@@ -171,5 +165,4 @@ The content comes from the academy's supplied documents. The site has **no** tes
 |---|---|
 | `npm run dev` / `build` / `start` | Develop / build / serve |
 | `npm run assets` | Build logo web files and favicons from the official logo |
-| `npm run render3d` | Re-render the 3D hero artwork and icons |
 | `npm run og` | Rebuild the social sharing image |

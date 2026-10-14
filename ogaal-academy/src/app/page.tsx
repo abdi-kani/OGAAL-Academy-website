@@ -1,20 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Building2, GraduationCap, MapPin } from "lucide-react";
-import {
-  aboutPreview,
-  closingCta,
-  hero,
-  introCards,
-  site,
-} from "@/content/site";
-import { HeroArt } from "@/components/HeroArt";
-import { TrainingTabs } from "@/components/TrainingTabs";
-import { Icon3D } from "@/components/Icon3D";
+import { ArrowRight } from "lucide-react";
+import { aboutPreview, closingCta, hero, introCards, programme, site, training } from "@/content/site";
+import { HeroTiles } from "@/components/HeroTiles";
+import { Icon } from "@/components/Icon";
+import { PartnersSection } from "@/components/PartnersSection";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import { PartnersSection } from "@/components/PartnersSection";
-import { ClosingCta, SafetyMarquee } from "@/components/Sections";
+import { ClosingCta, ProgrammeDays, TrainingCard } from "@/components/Sections";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -22,27 +15,25 @@ export const metadata: Metadata = {
   title: { absolute: site.seo.homeTitle },
 };
 
+const previewSlugs = ["safety-education", "storage-transportation", "supervised-exercises", "assessment-certification"];
+
 export default function HomePage() {
+  const previewCards = previewSlugs.map((s) => training.find((t) => t.slug === s)!);
+
   return (
     <>
       {/* ---------------- Hero ---------------- */}
-      <section aria-labelledby="hero-title" className="sky relative -mt-20 overflow-hidden pt-20 lg:-mt-[5.5rem] lg:pt-[5.5rem]">
-        {/* soft architectural arcs, echoing the reference backdrop */}
-        <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full text-white" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
-          <path d="M-80 900 C 40 420, 260 200, 560 140" fill="none" stroke="currentColor" strokeWidth="44" opacity="0.7" />
-          <path d="M-140 900 C -20 360, 200 120, 520 60" fill="none" stroke="currentColor" strokeWidth="16" opacity="0.6" />
-          <path d="M1500 860 C 1200 760, 900 760, 620 860" fill="none" stroke="currentColor" strokeWidth="60" opacity="0.55" />
-        </svg>
-        <div className="container-x relative grid items-center gap-10 pt-10 pb-16 sm:pt-14 lg:grid-cols-[1.12fr_0.88fr] lg:gap-6 lg:pt-16 lg:pb-32">
+      <section aria-labelledby="hero-title" className="border-b border-line bg-light">
+        <div className="container-x grid items-center gap-12 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16 lg:py-24">
           <Reveal>
             <p className="eyebrow">{hero.eyebrow}</p>
-            <h1 id="hero-title" className="mt-6 text-[2.6rem] leading-[1.04] tracking-[-0.045em] sm:text-6xl lg:text-[3.45rem] xl:text-[4.05rem]">
+            <h1 id="hero-title" className="mt-5 text-[2.6rem] leading-[1.05] sm:text-6xl">
               <span className="block">{hero.headingLines[0]}</span>
-              <span className="block text-blue lg:whitespace-nowrap">{hero.headingLines[1]}</span>
+              <span className="block text-blue">{hero.headingLines[1]}</span>
             </h1>
-            <p className="mt-6 font-display text-xl font-semibold text-navy sm:text-2xl">{hero.subtitle}</p>
-            <p className="mt-3 max-w-lg text-lg sm:text-xl">{hero.description}</p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <p className="mt-6 font-display text-xl font-semibold text-navy">{hero.subtitle}</p>
+            <p className="mt-3 max-w-lg text-lg">{hero.description}</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href={hero.primary.href} className="btn btn-primary">
                 {hero.primary.label}
                 <ArrowRight size={18} aria-hidden="true" />
@@ -52,21 +43,23 @@ export default function HomePage() {
               </Link>
             </div>
           </Reveal>
-          <Reveal delay={120}>
-            <HeroArt />
-          </Reveal>
+          <div className="mx-auto w-full max-w-md">
+            <HeroTiles />
+          </div>
         </div>
       </section>
 
       {/* ---------------- Introduction cards ---------------- */}
-      <section aria-label="What we focus on" className="relative z-10 lg:-mt-24">
-        <div className="container-x pt-2 lg:pt-0">
-          <ul className="grid gap-4 md:grid-cols-3 lg:gap-5" role="list">
+      <section aria-label="What we focus on" className="py-16 lg:py-20">
+        <div className="container-x">
+          <ul className="grid gap-4 md:grid-cols-3" role="list">
             {introCards.map((c, i) => (
-              <Reveal as="li" key={c.title} delay={i * 90} className="card card-hover flex items-center gap-5 p-6 lg:p-7">
-                <Icon3D name={c.icon} />
+              <Reveal as="li" key={c.title} delay={i * 70} className="card flex items-start gap-4 p-6">
+                <span className="icon-tile">
+                  <Icon name={c.icon} />
+                </span>
                 <div>
-                  <h2 className="text-xl">{c.title}</h2>
+                  <h2 className="text-lg">{c.title}</h2>
                   <p className="mt-1.5 text-[0.98rem]">{c.text}</p>
                 </div>
               </Reveal>
@@ -75,42 +68,63 @@ export default function HomePage() {
         </div>
       </section>
 
-      <SafetyMarquee />
-
       {/* ---------------- About preview ---------------- */}
-      <section aria-labelledby="about-title" className="pt-8 pb-20 lg:pt-12 lg:pb-28">
-        <div className="container-x">
-          <SectionHeading id="about-title" lead={aboutPreview.heading.lead} accent={aboutPreview.heading.accent} align="center" />
-          <div className="mt-14 grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-            <Reveal>
-              <p className="text-lg leading-relaxed sm:text-xl">{aboutPreview.text}</p>
-              <Link href={aboutPreview.cta.href} className="btn btn-primary mt-8">
+      <section aria-labelledby="about-title" className="bg-light py-16 lg:py-24">
+        <div className="container-x grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <SectionHeading id="about-title" eyebrow="About us" lead={aboutPreview.heading.lead} accent={aboutPreview.heading.accent} intro={aboutPreview.text} />
+          <Reveal delay={100} className="card divide-y divide-line">
+            {[
+              { icon: "building", label: "Institution", value: "Private professional training institution" },
+              { icon: "pin", label: "Location", value: site.location.label },
+              { icon: "bullets", label: "Approach", value: "Structured education and supervised safety training" },
+            ].map((r) => (
+              <div key={r.label} className="flex items-center gap-4 p-5">
+                <span className="icon-tile">
+                  <Icon name={r.icon as "building"} />
+                </span>
+                <div>
+                  <p className="eyebrow !text-[0.7rem]">{r.label}</p>
+                  <p className="font-display font-bold text-navy">{r.value}</p>
+                </div>
+              </div>
+            ))}
+            <div className="p-5">
+              <Link href={aboutPreview.cta.href} className="inline-flex items-center gap-1.5 font-display font-bold text-blue hover:underline">
                 {aboutPreview.cta.label}
-                <ArrowRight size={18} aria-hidden="true" />
+                <ArrowRight size={16} aria-hidden="true" />
               </Link>
-            </Reveal>
-            <Reveal delay={100} as="ul" className="card divide-y divide-line p-2" >
-              {[
-                { icon: Building2, label: "Institution", value: "Private professional training institution" },
-                { icon: MapPin, label: "Location", value: site.location.label },
-                { icon: GraduationCap, label: "Approach", value: "Structured education and supervised safety training" },
-              ].map((r) => (
-                <li key={r.label} className="flex items-center gap-4 p-5">
-                  <span className="icon-tile">
-                    <r.icon size={22} aria-hidden="true" strokeWidth={1.75} />
-                  </span>
-                  <div>
-                    <p className="font-display text-xs font-bold tracking-[0.18em] text-blue uppercase">{r.label}</p>
-                    <p className="mt-0.5 font-display font-bold text-navy">{r.value}</p>
-                  </div>
-                </li>
-              ))}
-            </Reveal>
-          </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      <TrainingTabs />
+      {/* ---------------- Training preview ---------------- */}
+      <section aria-labelledby="training-title" className="py-16 lg:py-24">
+        <div className="container-x">
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <SectionHeading id="training-title" eyebrow="Training" lead="Training and safety" accent="education." />
+            <Reveal>
+              <Link href="/training" className="btn btn-outline shrink-0">
+                View All Training
+                <ArrowRight size={18} aria-hidden="true" />
+              </Link>
+            </Reveal>
+          </div>
+          <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" role="list">
+            {previewCards.map((t, i) => (
+              <TrainingCard key={t.slug} t={t} index={i} />
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ---------------- Two-day programme ---------------- */}
+      <section aria-labelledby="programme-title" className="bg-light py-16 lg:py-24">
+        <div className="container-x">
+          <SectionHeading id="programme-title" eyebrow="Programme" lead={programme.heading.lead} accent={programme.heading.accent} />
+          <ProgrammeDays />
+        </div>
+      </section>
 
       <PartnersSection />
 

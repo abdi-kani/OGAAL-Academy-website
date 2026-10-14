@@ -68,69 +68,28 @@ export const contact = {
 };
 
 /* ------------------------------------------------------------------ */
-/* Imagery                                                             */
-/* ------------------------------------------------------------------ */
-export const art = {
-  hero: {
-    src: "/images/3d/hero-shield-book.webp",
-    width: 1147,
-    height: 1095,
-    alt: "Illustration of a blue shield with a check mark floating above an open book, symbolising safety through education",
-  },
-  icons: {
-    shield: { src: "/images/3d/icon-shield.webp", width: 340, height: 424 },
-    book: { src: "/images/3d/icon-book.webp", width: 528, height: 347 },
-    people: { src: "/images/3d/icon-people.webp", width: 408, height: 248 },
-  },
-};
-
-/** Licensed photographs still to be supplied. `src: null` shows a labelled placeholder. */
-export const photos = {
-  classroom: {
-    src: null as string | null,
-    alt: "Adult learners in a classroom session with an instructor",
-    brief: "Adult Somali learners (men and women) attentive to an instructor at a whiteboard. Calm, professional, daylight. No weapons visible.",
-  },
-  instructor: {
-    src: null as string | null,
-    alt: "Instructor reviewing printed safety materials with a small group",
-    brief: "Instructor and small group around a table reviewing printed safety materials.",
-  },
-};
-
-/* ------------------------------------------------------------------ */
 /* Home                                                                */
 /* ------------------------------------------------------------------ */
 export const hero = {
-  eyebrow: "OGAAL Academy",
+  eyebrow: "OGAAL Academy · Mogadishu",
   headingLines: ["Safety First.", "Responsibility Always."],
   subtitle: "Firearms Safety & Responsibility Training Academy",
   description: "Professional safety education. Responsible ownership. Safer communities.",
   primary: { label: "Explore Training", href: "/training" },
   secondary: { label: "Contact Us", href: "/contact" },
-  floatingLabels: [
-    { icon: "graduation", text: "Safety-focused education" },
-    { icon: "pin", text: "Mogadishu, Somalia" },
-    { icon: "target", text: "Supervised safety training" },
+  /** Four tiles shown beside the hero text */
+  tiles: [
+    { icon: "pistol", text: "Firearm safety" },
+    { icon: "bullets", text: "Safe handling" },
+    { icon: "target", text: "Supervised exercises" },
+    { icon: "bulletCheck", text: "Certification" },
   ],
 } as const;
 
 export const introCards = [
-  {
-    icon: "shield",
-    title: "Safety Awareness",
-    text: "Consistent safety habits and an understanding of risk come first.",
-  },
-  {
-    icon: "book",
-    title: "Professional Training",
-    text: "Structured education that strengthens safety knowledge and responsible judgment.",
-  },
-  {
-    icon: "people",
-    title: "Responsible Ownership",
-    text: "Ownership carries personal accountability for every decision.",
-  },
+  { icon: "pistol", title: "Safety Awareness", text: "Consistent safety habits and an understanding of risk come first." },
+  { icon: "bullet", title: "Professional Training", text: "Structured education that strengthens safety knowledge and responsible judgment." },
+  { icon: "target", title: "Responsible Ownership", text: "Ownership carries personal accountability for every decision." },
 ] as const;
 
 export const aboutPreview = {
@@ -139,48 +98,11 @@ export const aboutPreview = {
   cta: { label: "Learn About OGAAL", href: "/about" },
 };
 
-/** Home page "Knowledge with a purpose" list: pick a topic on the left, details show on the right. */
-export const trainingTabs = {
-  eyebrow: "Our Training",
-  headingLines: ["Knowledge with", "a purpose."],
-  intro: "Explore the academy’s core areas of safety education.",
-  items: [
-    {
-      title: "Firearm safety",
-      icon: "pistol",
-      eyebrow: "A foundation in safety",
-      heading: "Awareness comes first.",
-      text: "Develop an understanding of firearm safety, risk awareness and the importance of a consistent safety mindset.",
-    },
-    {
-      title: "Responsible ownership",
-      icon: "gunLock",
-      eyebrow: "Accountability",
-      heading: "Every decision matters.",
-      text: "Explore accountability, sound judgment, safe storage and consideration for others.",
-    },
-    {
-      title: "Assessment & certification",
-      icon: "award",
-      eyebrow: "Proven understanding",
-      heading: "Learning you can demonstrate.",
-      text: "Demonstrate your understanding through the academy’s assessment process. Successful participants receive an OGAAL Firearms Safety Training Certificate.",
-    },
-  ],
-  cta: { label: "View All Training", href: "/training" },
-} as const;
-
-/**
- * Partners and cooperation (home page, #partners).
- * status: "pending" shows "Agreement pending signature confirmation".
- * Change to "signed" only once the signed agreement is in hand.
- */
 export const partnersSection = {
   eyebrow: "Partners & Cooperation",
   headingLines: ["Working together.", "For a safer tomorrow."],
   accent: "safer tomorrow.",
   intro: "Institutional cooperation built around safety education and responsibility.",
-  sharedFocus: { lead: "Shared focus:", text: "safety education and responsibility." },
   partners: [
     {
       country: "Federal Republic of Somalia",
@@ -211,16 +133,6 @@ export const closingCta = {
 /* ------------------------------------------------------------------ */
 export const about = {
   heading: "About OGAAL Academy",
-  hero: {
-    eyebrow: "01 / About OGAAL",
-    headingLines: ["Responsibility", "starts with", "knowledge"],
-    text: "Professional firearms safety education for individuals, security personnel, and organisations.",
-    primary: { label: "Discover our approach", href: "#approach" },
-    pillars: ["Safety", "Accountability", "Respect for life"],
-  },
-  strip: ["Classroom learning", "Supervised safety exercises", "Assessment"],
-  whoHeading: "Safety. Responsibility. Respect.",
-
   intro: [
     "OGAAL Firearms Safety and Responsibility Training Academy provides professional safety education for eligible individuals, security personnel, and organisations.",
     "Our approach combines classroom learning, supervised safety exercises, and assessment. We encourage lawful conduct, personal accountability, and respect for life throughout the learning process.",
@@ -237,15 +149,12 @@ export const about = {
     { icon: "scale", title: "Compliance", text: "Respecting applicable laws and institutional requirements." },
   ],
   approach: {
-    eyebrow: "Our Training Approach",
-    headingLines: ["A clear path to", "responsible learning."],
-    intro: "Building safety knowledge, sound judgment, and accountability.",
-    feature: ["Knowledge.", "Practice.", "Responsibility."],
-    bar: { lead: "Learn with purpose.", accent: "Act with responsibility.", cta: { label: "Enquire about training", href: "/contact?type=Training" } },
+    heading: { lead: "Our training", accent: "approach." },
+    intro: "Every part of the programme is designed to build safety knowledge, sound judgment, and accountability.",
     items: [
       { icon: "presentation", title: "Structured classroom education", text: "Clear, organised lessons that build understanding of safety principles step by step." },
-      { icon: "safetyGlasses", title: "Supervised safety learning", text: "Practical learning takes place under instructor supervision in a controlled environment." },
-      { icon: "clipboard", title: "Assessment of understanding", text: "Participants demonstrate what they have learned through the academy’s assessment process." },
+      { icon: "target", title: "Supervised safety learning", text: "Practical learning takes place under instructor supervision in a controlled environment." },
+      { icon: "bulletCheck", title: "Assessment of understanding", text: "Participants demonstrate what they have learned through the academy’s assessment process." },
       { icon: "handshake", title: "Responsible conduct", text: "Respect for others, lawful behaviour, and self-discipline are expected throughout." },
       { icon: "refresh", title: "Continuous improvement", text: "We review our training regularly to keep standards clear and relevant." },
     ],
@@ -258,43 +167,18 @@ export const about = {
 export const trainingPage = {
   heading: "Training and Safety Education",
   intro: "Explore learning focused on firearm safety, responsible ownership, and accident prevention.",
-  hero: {
-    eyebrow: "Training & Safety Education",
-    headingLines: ["Training for a", "safer tomorrow"],
-    primary: { label: "Explore Programmes", href: "#programmes" },
-    secondary: { label: "Enquire Now", href: "/contact?type=Training" },
-  },
-  servicesHeading: { lead: "Programmes &", accent: "services." },
+  servicesHeading: { lead: "Programmes and", accent: "services." },
   servicesIntro: "Build knowledge. Strengthen responsibility.",
-  cta: {
-    headingLines: ["Your next step starts", "with knowledge"],
-    text: "Speak with OGAAL about training enquiries.",
-    cta: { label: "Contact the Academy", href: "/contact?type=Training" },
-  },
 };
 
 export const training = [
   { slug: "safety-education", icon: "pistol", title: "Firearm Safety Education", text: "Understand safety principles and the importance of preventing accidents." },
-  { slug: "responsible-ownership", icon: "userCheck", title: "Responsible Ownership", text: "Explore accountability, sound judgment, and consideration for others." },
-  { slug: "storage-transportation", icon: "gunLock", title: "Safe Storage and Transportation", text: "Learn the principles of secure storage, preventing unauthorised access, and responsible transportation." },
+  { slug: "responsible-ownership", icon: "bullet", title: "Responsible Ownership", text: "Explore accountability, sound judgment, and consideration for others." },
+  { slug: "storage-transportation", icon: "pistolLock", title: "Safe Storage and Transportation", text: "Learn the principles of secure storage, preventing unauthorised access, and responsible transportation." },
   { slug: "legal-ethical", icon: "scale", title: "Legal and Ethical Awareness", text: "Develop awareness of applicable laws, regulations, and personal responsibilities." },
   { slug: "supervised-exercises", icon: "target", title: "Supervised Safety Exercises", text: "Participate in structured safety education under instructor supervision." },
-  { slug: "assessment-certification", icon: "award", title: "Assessment and Certification", text: "Demonstrate understanding through the academy’s assessment process." },
+  { slug: "assessment-certification", icon: "bulletCheck", title: "Assessment and Certification", text: "Demonstrate understanding through the academy’s assessment process." },
   { slug: "organisational-refresher", icon: "building", title: "Organisational and Refresher Training", text: "Enquire about education for your team or refresher learning to reinforce safety awareness." },
-] as const;
-
-/** Topics shown in the scrolling band on the home page (all taken from the two-day programme). */
-export const safetyTopics = [
-  { icon: "pistol", text: "Firearm safety" },
-  { icon: "rifle", text: "Firearm identification" },
-  { icon: "clipboard", text: "Safety rules and procedures" },
-  { icon: "gunSafe", text: "Safe storage" },
-  { icon: "gunLock", text: "Responsible transportation" },
-  { icon: "scale", text: "Legal responsibilities" },
-  { icon: "target", text: "Practical safety exercises" },
-  { icon: "earProtection", text: "Supervised demonstrations" },
-  { icon: "safetyGlasses", text: "Safety assessment" },
-  { icon: "award", text: "Certification" },
 ] as const;
 
 export const programme = {
@@ -307,8 +191,8 @@ export const programme = {
         { icon: "shield", text: "Introduction to firearm safety." },
         { icon: "rifle", text: "Firearm identification and awareness." },
         { icon: "scale", text: "Legal responsibilities." },
-        { icon: "clipboard", text: "Safety rules and procedures." },
-        { icon: "gunSafe", text: "Safe storage and transportation principles." },
+        { icon: "bullets", text: "Safety rules and procedures." },
+        { icon: "pistolLock", text: "Safe storage and transportation principles." },
       ],
     },
     {
@@ -316,8 +200,8 @@ export const programme = {
       title: "Supervised Learning and Assessment",
       items: [
         { icon: "target", text: "Practical safety exercises." },
-        { icon: "earProtection", text: "Supervised safety demonstrations." },
-        { icon: "badge", text: "Safety assessment." },
+        { icon: "pistol", text: "Supervised safety demonstrations." },
+        { icon: "bulletCheck", text: "Safety assessment." },
         { icon: "refresh", text: "Course review." },
         { icon: "award", text: "Certification for successful participants." },
       ],
