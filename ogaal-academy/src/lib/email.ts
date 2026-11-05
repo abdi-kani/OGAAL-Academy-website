@@ -95,3 +95,19 @@ export async function sendEnquiryEmail(e: EnquiryInput, meta: { ip: string }): P
   });
   return res.ok;
 }
+
+/** Account emails from the portal, such as password resets. Uses the same delivery settings as enquiries. */
+export async function sendSystemEmail(to: string, subject: string, text: string): Promise<boolean> {
+  if (smtpConfigured()) {
+    const info = await smtp().sendMail({ from: env.SMTP_FROM || `"OGAAL Academy" <${env.SMTP_USER}>`, to, subject: clean(subject), text });
+    return (info.accepted?.length ?? 0) > 0;
+  }
+  if (!resendConfigured()) return false;
+  const res = await fetch(env.RESEND_API_URL || "https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ from: env.ENQUIRY_FROM_EMAIL, to: [to], subject: clean(subject), text }),
+    signal: AbortSignal.timeout(10000),
+  });
+  return res.ok;
+}

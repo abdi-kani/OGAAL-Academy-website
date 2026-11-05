@@ -7,27 +7,36 @@
     "build": "next build",
     "start": "next start",
     "assets": "node scripts/build-assets.cjs",
-    "og": "node scripts/build-og.cjs"
+    "og": "node scripts/build-og.cjs",
+    "db:migrate": "node scripts/db-migrate.cjs",
+    "db:create-admin": "node scripts/create-admin.cjs",
+    "backup": "node scripts/backup.cjs",
+    "test:portal": "node scripts/test-portal.cjs"
   },
   "dependencies": {
     "@fontsource-variable/fraunces": "^5.3.0",
     "@fontsource-variable/inter": "^5.3.0",
     "@fontsource-variable/manrope": "^5.3.0",
+    "exceljs": "^4.4.0",
     "lucide-react": "^1.51.0",
     "motion": "^14.0.0",
+    "mysql2": "^3.24.6",
     "next": "^16.3.8",
     "nodemailer": "^10.0.14",
+    "pdf-lib": "^1.17.1",
+    "qrcode": "^1.5.4",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "server-only": "^0.0.1"
+    "server-only": "^0.0.1",
+    "sharp": "^0.35.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^26.6.4",
     "@types/nodemailer": "^8.0.2",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "sharp": "^0.35.5",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2"
   }

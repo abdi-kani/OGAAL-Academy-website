@@ -37,6 +37,8 @@ npm start                    # http://localhost:3000
 | `/certification` | Certification — requirements, what the certificate confirms, trainee conduct |
 | `/faq` | FAQs — accessible accordion (old `/faqs` redirects here) |
 | `/contact` | Contact — enquiry form and confirmed contact details |
+| `/verify` | Public certificate verification (see section 10) |
+| `/portal` | Staff portal: sign-in required (see section 10) |
 
 Header navigation: Home, About Us, Training, Partners, Contact + **Enquire Now**. Certification and FAQs are linked from the footer and from relevant buttons.
 
@@ -123,7 +125,9 @@ Both options were tested end to end with a test mail server:
 
 ## 6. Deployment
 
-**Vercel (recommended):** import the project, add the environment variables, then deploy. **Any Node host:** `npm ci && npm run build && npm start` behind HTTPS.
+**Public website only:** Vercel works well. **With the certificate portal, see section 10:** it needs a long-running server and a persistent disk, which rules out Vercel.
+
+**Vercel:** import the project, add the environment variables, then deploy. **Any Node host:** `npm ci && npm run build && npm start` behind HTTPS.
 
 When the domain is registered and pointed at the deployment:
 - set `NEXT_PUBLIC_SITE_URL=https://ogaalacademy.so` and redeploy. This turns on canonical URLs, the sitemap, `robots.txt` and search indexing, and adds the site URL to the structured data.
@@ -157,7 +161,105 @@ When the domain is registered and pointed at the deployment:
 
 ## 9. Content rules followed
 
-The content comes from the academy's supplied documents. The site has **no** testimonials, graduate numbers, success rates, instructor biographies, qualifications, government or partner logos (the one partner is shown as text with its agreement status), course schedules, prices, invented contact details, map pins, or certificate verification tool. Programme descriptions stay at an educational-overview level.
+The content comes from the academy's supplied documents. The site has **no** testimonials, graduate numbers, success rates, instructor biographies, qualifications, government or partner logos (the one partner is shown as text with its agreement status), course schedules, prices, invented contact details, or map pins. Programme descriptions stay at an educational-overview level.
+
+## 10. Certificate management portal
+
+Staff portal at `/portal`, public certificate checks at `/verify`. It registers employees, records training and authorised assessment results, issues numbered one-year certificates as PDFs with QR codes, and keeps an audit trail.
+
+The public website does not need any of this: with no `DB_*` settings it runs exactly as before, and the portal says it isn't configured.
+
+### Set up
+
+Requires **MySQL 8** (MariaDB 10.4+ also works) and `mysqldump` on the server for backups.
+
+```bash
+npm install
+cp .env.example .env.local        # fill in the DB_ settings, STORAGE_DIR and PORTAL_BASE_URL
+```
+
+Create an empty database and a user for it:
+
+```sql
+CREATE DATABASE ogaal_portal CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'ogaal'@'localhost' IDENTIFIED BY 'a long random password';
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, INDEX, REFERENCES, LOCK TABLES ON ogaal_portal.* TO 'ogaal'@'localhost';
+```
+
+```bash
+npm run db:migrate                # creates the tables; safe to run again
+npm run db:create-admin           # creates the first Super Admin; there is no default account
+npm run build && npm start
+```
+
+Then sign in at `/portal/login` and go to **Settings** to upload the signature and official stamp and replace the placeholder assessment questions. Until a signature and stamp are uploaded, certificates print with blank space to sign and stamp by hand. The system never generates either one.
+
+### Roles
+
+| | Super Admin | Admin | Staff | Verification User |
+|---|---|---|---|---|
+| Verify certificates | ✓ | ✓ | ✓ | ✓ |
+| Register and view employees | ✓ | ✓ | ✓ | |
+| Edit a record that has a certificate | ✓ | ✓ | | |
+| Record and approve assessments, read assessment notes | ✓ | ✓ | | |
+| Generate, download, print, renew, revoke certificates | ✓ | ✓ | | |
+| Reports, exports, activity logs | ✓ | ✓ | | |
+| Manage users | All roles | Staff and Verification only | | |
+| Renew a revoked certificate | ✓ | | | |
+| Delete employees | ✓ | | | |
+| Settings | ✓ | | | |
+
+A user with an **Assigned Company** sees and handles that company's records only. Leave it empty for access to all companies. Super Admins are never limited.
+
+### How certificates work
+
+- A certificate is issued automatically when a record has a training date and a **passed, approved** assessment. Staff cannot record assessments.
+- Numbers look like `CERT-2026-00001`. They come from an atomic per-year counter, so they are never repeated, even after a record is deleted.
+- Issue date is today in `APP_TIMEZONE`; expiry is one year later. A certificate is valid through its expiry date.
+- The server marks expired certificates hourly with nobody logged in. `/verify` also checks the date itself on every request.
+- Renewing issues a new number and PDF. The previous certificate stays in the record's `certificate_history`, can still be downloaded, and verifies as replaced.
+- Changing a printed field regenerates the PDF under the same number.
+- Exports stop at 20,000 rows for Excel and 5,000 for PDF. The PDF states when it hits its limit.
+- QR codes link to `PORTAL_BASE_URL/verify/c/<random token>`, so **set `PORTAL_BASE_URL` to the real domain before issuing certificates**. QR codes on PDFs already handed out cannot change.
+
+### Database
+
+`employee_certificates` holds all employee, training, assessment and certificate data in one row per employee, including earlier certificates. `users` holds accounts. Four supporting tables hold no employee records: `user_sessions`, `password_resets`, `audit_logs` and `system_settings`. `schema_migrations` tracks applied migrations. To change the schema, add a new numbered file in `db/migrations/`.
+
+### Deployment
+
+The portal needs a **long-running Node.js 20.9+ process, a persistent disk and MySQL**, behind an HTTPS proxy such as nginx. Serverless hosting such as Vercel is not suitable: its disk does not persist, so photos and PDFs would be lost, and the hourly job and in-memory rate limits would not run reliably. Check that your Cloudways plan can run a long-lived Node.js process. If it can't, use a VPS.
+
+- Keep `STORAGE_DIR` and `BACKUP_DIR` outside the deployment folder, so a redeploy can't delete them, and never under `public/`.
+- Run one server process. Rate limits are held in memory, so cluster mode would weaken them.
+- Have the proxy set the real address, as nginx does with `proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;`, along with `Host`. Without a proxy, a client can forge `X-Forwarded-For`. Behind two proxies, set `TRUSTED_PROXY_COUNT=2`.
+
+### Backup and recovery
+
+With `BACKUP_ENABLED=true` the server takes a backup every 24 hours. `npm run backup` runs one by hand. Each run writes a compressed database dump and a file storage archive to `BACKUP_DIR`, deletes those older than `BACKUP_RETENTION_DAYS` (default 30), and reports the result on the dashboard and in Settings, which warn if the last backup failed or is over 36 hours old.
+
+Backups hold personal and assessment data and are **not encrypted**. Copy them to separate, access-controlled storage: a backup on the same disk won't survive losing that disk. Never put them in Git.
+
+To recover:
+
+```bash
+gzip -dc ogaal-db-<timestamp>.sql.gz | mysql -u ogaal -p ogaal_portal
+tar -xzf ogaal-files-<timestamp>.tar.gz -C /path/to/STORAGE_DIR
+```
+
+Then start the app, sign in and open a certificate PDF to confirm. Practise this on a spare database from time to time.
+
+### Security notes
+
+- Passwords are hashed with scrypt. Session and reset tokens are stored only as hashes.
+- Every API route goes through `portalRoute` in `src/lib/portal/api.ts`, which checks origin, session and permission. Company limits are enforced in `getEmployee` and `buildWhere`.
+- Uploaded images are decoded and re-encoded, which rejects non-images and strips metadata. Files are served only through permission-checked routes.
+- Public verification reads a fixed list of columns that excludes private fields. Because certificate numbers run in sequence, someone can still look up names by guessing numbers, up to the limit of 30 checks per 10 minutes per address.
+- **This repository is public.** `.gitignore` excludes `.env*`, `storage/`, `backups/` and archives. Never commit real data, and keep `.env.example` to placeholders.
+
+### Testing
+
+`npm run test:portal` runs about 200 end-to-end checks over HTTP. It refuses to run unless `DB_NAME` ends in `_test`, and it needs an empty migrated database, a Super Admin, a running server and the variables listed at the top of `scripts/test-portal.cjs`.
 
 ## Scripts
 
@@ -166,3 +268,7 @@ The content comes from the academy's supplied documents. The site has **no** tes
 | `npm run dev` / `build` / `start` | Develop / build / serve |
 | `npm run assets` | Build logo web files and favicons from the official logo |
 | `npm run og` | Rebuild the social sharing image |
+| `npm run db:migrate` | Apply database migrations |
+| `npm run db:create-admin` | Create a Super Admin |
+| `npm run backup` | Back up the database and private files |
+| `npm run test:portal` | End-to-end portal tests (test database only) |

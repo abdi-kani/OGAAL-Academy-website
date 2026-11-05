@@ -46,6 +46,7 @@ export const footerNav = [
   { label: "Training", href: "/training" },
   { label: "Partners", href: "/partners" },
   { label: "Certification", href: "/certification" },
+  { label: "Verify a Certificate", href: "/verify" },
   { label: "FAQs", href: "/faq" },
   { label: "Contact", href: "/contact" },
 ];

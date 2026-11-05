@@ -61,10 +61,13 @@ export default function CertificationPage() {
             </p>
           </Reveal>
         </div>
-        <Reveal className="container-x mt-10">
+        <Reveal className="container-x mt-10 flex flex-wrap gap-3">
           <Link href={certification.cta.href} className="btn btn-primary">
             {certification.cta.label}
             <ArrowRight size={18} aria-hidden="true" />
+          </Link>
+          <Link href="/verify" className="btn btn-outline">
+            Verify a Certificate
           </Link>
         </Reveal>
       </section>

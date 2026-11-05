@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: { formats: ["image/avif", "image/webp"] },
   poweredByHeader: false,
+  serverExternalPackages: ["mysql2", "pdf-lib", "exceljs", "qrcode"],
   async redirects() {
     return [
       { source: "/faqs", destination: "/faq", permanent: true },
@@ -18,6 +19,7 @@ const nextConfig: NextConfig = {
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+          { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains" },
         ],
       },
     ];

@@ -5,6 +5,6 @@ import { siteUrl } from "@/lib/seo";
 export default function robots(): MetadataRoute.Robots {
   const live = !!process.env.NEXT_PUBLIC_SITE_URL;
   return live
-    ? { rules: { userAgent: "*", allow: "/" }, sitemap: `${siteUrl}/sitemap.xml` }
+    ? { rules: { userAgent: "*", allow: "/", disallow: ["/portal", "/api", "/verify/c/"] }, sitemap: `${siteUrl}/sitemap.xml` }
     : { rules: { userAgent: "*", disallow: "/" } };
 }

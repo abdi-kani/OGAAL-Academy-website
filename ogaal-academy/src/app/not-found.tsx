@@ -1,19 +1,27 @@
 import Link from "next/link";
+import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
 
 export default function NotFound() {
   return (
-    <section className="container-x py-24 text-center">
-      <p className="eyebrow">Page not found</p>
-      <h1 className="mt-3 text-4xl sm:text-5xl">We couldn’t find that page</h1>
-      <p className="mx-auto mt-4 max-w-md text-lg">The page may have moved. Try one of these instead.</p>
-      <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-        <Link href="/" className="btn btn-primary">
-          Back to Home
-        </Link>
-        <Link href="/contact" className="btn btn-outline">
-          Contact Us
-        </Link>
-      </div>
-    </section>
+    <>
+      <Header />
+      <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
+        <section className="container-x py-24 text-center">
+          <p className="eyebrow">Page not found</p>
+          <h1 className="mt-3 text-4xl sm:text-5xl">We couldn’t find that page</h1>
+          <p className="mx-auto mt-4 max-w-md text-lg">The page may have moved. Try one of these instead.</p>
+          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+            <Link href="/" className="btn btn-primary">
+              Back to Home
+            </Link>
+            <Link href="/contact" className="btn btn-outline">
+              Contact Us
+            </Link>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
   );
 }
