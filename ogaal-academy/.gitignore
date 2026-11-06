@@ -10,7 +10,3 @@ scripts/.og.html
 # Private data and secrets. Never commit these: this repository is public.
 .env.*
 !.env.example
-storage/
-backups/
-*.sql.gz
-*.tar.gz

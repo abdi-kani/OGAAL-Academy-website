@@ -3,7 +3,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: { formats: ["image/avif", "image/webp"] },
   poweredByHeader: false,
-  serverExternalPackages: ["mysql2", "pdf-lib", "exceljs", "qrcode"],
+  serverExternalPackages: ["pdf-lib"],
+  // The certificate reads the logo from disk. Serverless functions only include files that are listed or imported.
+  outputFileTracingIncludes: { "/api/admin/employees/[id]/certificate/pdf": ["./public/brand/ogaal-logo.png"] },
   async redirects() {
     return [
       { source: "/faqs", destination: "/faq", permanent: true },

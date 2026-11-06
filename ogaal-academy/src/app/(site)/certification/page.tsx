@@ -66,9 +66,6 @@ export default function CertificationPage() {
             {certification.cta.label}
             <ArrowRight size={18} aria-hidden="true" />
           </Link>
-          <Link href="/verify" className="btn btn-outline">
-            Verify a Certificate
-          </Link>
         </Reveal>
       </section>
     </>

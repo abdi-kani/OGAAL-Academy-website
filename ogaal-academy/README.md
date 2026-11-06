@@ -37,8 +37,7 @@ npm start                    # http://localhost:3000
 | `/certification` | Certification — requirements, what the certificate confirms, trainee conduct |
 | `/faq` | FAQs — accessible accordion (old `/faqs` redirects here) |
 | `/contact` | Contact — enquiry form and confirmed contact details |
-| `/verify` | Public certificate verification (see section 10) |
-| `/portal` | Staff portal: sign-in required (see section 10) |
+| `/admin` | Admin system: login required (see section 10) |
 
 Header navigation: Home, About Us, Training, Partners, Contact + **Enquire Now**. Certification and FAQs are linked from the footer and from relevant buttons.
 
@@ -125,7 +124,7 @@ Both options were tested end to end with a test mail server:
 
 ## 6. Deployment
 
-**Public website only:** Vercel works well. **With the certificate portal, see section 10:** it needs a long-running server and a persistent disk, which rules out Vercel.
+Vercel works well for the website and the admin system. The admin system's settings are in section 10.
 
 **Vercel:** import the project, add the environment variables, then deploy. **Any Node host:** `npm ci && npm run build && npm start` behind HTTPS.
 
@@ -163,103 +162,64 @@ When the domain is registered and pointed at the deployment:
 
 The content comes from the academy's supplied documents. The site has **no** testimonials, graduate numbers, success rates, instructor biographies, qualifications, government or partner logos (the one partner is shown as text with its agreement status), course schedules, prices, invented contact details, or map pins. Programme descriptions stay at an educational-overview level.
 
-## 10. Certificate management portal
+## 10. Admin login and certificate management
 
-Staff portal at `/portal`, public certificate checks at `/verify`. It registers employees, records training and authorised assessment results, issues numbered one-year certificates as PDFs with QR codes, and keeps an audit trail.
-
-The public website does not need any of this: with no `DB_*` settings it runs exactly as before, and the portal says it isn't configured.
+An administrator can log in at `/admin/login`, register employees, issue certificates and print them. There is no database: records are stored encrypted in a **private GitHub repository** through the GitHub API. The public site runs without any of this configured; `/admin` then says it isn't configured.
 
 ### Set up
 
-Requires **MySQL 8** (MariaDB 10.4+ also works) and `mysqldump` on the server for backups.
+1. **Create the storage repository.** On GitHub, create a new **private** repository, for example `ogaal-academy-storage`, and tick "Add a README" so it isn't empty. Never make it public: the app checks and refuses to run against a public repository.
+2. **Create a token.** GitHub, Settings, Developer settings, Fine-grained personal access tokens. Give it access to **only that repository**, with **Contents: Read and write**. Tokens expire, so set a reminder to replace it before the date you choose.
+3. **Create your login and keys.** Run `npm run admin:setup`. It asks for a username and a password of at least 12 characters, then prints `ADMIN_USERS`, `ADMIN_SESSION_SECRET` and `DATA_ENCRYPTION_KEY`.
+4. **Save a copy of `DATA_ENCRYPTION_KEY`** in a password manager, outside GitHub and Vercel. **If this key is lost, all employee data is lost for good.** Nobody can recover it, and it can't be changed once data exists.
+5. **Add the settings.** In Vercel, Project, Settings, Environment Variables (or `.env.local` on your own computer), add the three values above plus `GITHUB_STORAGE_REPO` (as `owner/name`), `GITHUB_STORAGE_TOKEN` and `GITHUB_STORAGE_BRANCH`. Then redeploy.
+6. **Log in** at `/admin/login`, open Settings, and upload the academy's real signature and seal.
 
-```bash
-npm install
-cp .env.example .env.local        # fill in the DB_ settings, STORAGE_DIR and PORTAL_BASE_URL
-```
+**More administrators or a new password:** run `npm run admin:setup -- --account` and update `ADMIN_USERS` in Vercel, separating accounts with a comma, then redeploy. A changed password or removed account ends that account's sessions.
 
-Create an empty database and a user for it:
+### What is stored where
 
-```sql
-CREATE DATABASE ogaal_portal CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'ogaal'@'localhost' IDENTIFIED BY 'a long random password';
-GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, INDEX, REFERENCES, LOCK TABLES ON ogaal_portal.* TO 'ogaal'@'localhost';
-```
+| In the storage repository | Contents |
+|---|---|
+| `data/employees.json.enc` | One collection holding every employee record, plus the certificate counter |
+| `data/settings.json.enc` | Signatory, training title, signature and seal references |
+| `data/audit-log.json.enc` | The latest 2,000 administrator actions |
+| `employee-photos/`, `settings-assets/` | Photos, signatures and seals, each encrypted, with random file names |
+| `backups/employees-YYYY-MM-DD.json.enc` | Automatic daily backups |
 
-```bash
-npm run db:migrate                # creates the tables; safe to run again
-npm run db:create-admin           # creates the first Super Admin; there is no default account
-npm run build && npm start
-```
-
-Then sign in at `/portal/login` and go to **Settings** to upload the signature and official stamp and replace the placeholder assessment questions. Until a signature and stamp are uploaded, certificates print with blank space to sign and stamp by hand. The system never generates either one.
-
-### Roles
-
-| | Super Admin | Admin | Staff | Verification User |
-|---|---|---|---|---|
-| Verify certificates | ✓ | ✓ | ✓ | ✓ |
-| Register and view employees | ✓ | ✓ | ✓ | |
-| Edit a record that has a certificate | ✓ | ✓ | | |
-| Record and approve assessments, read assessment notes | ✓ | ✓ | | |
-| Generate, download, print, renew, revoke certificates | ✓ | ✓ | | |
-| Reports, exports, activity logs | ✓ | ✓ | | |
-| Manage users | All roles | Staff and Verification only | | |
-| Renew a revoked certificate | ✓ | | | |
-| Delete employees | ✓ | | | |
-| Settings | ✓ | | | |
-
-A user with an **Assigned Company** sees and handles that company's records only. Leave it empty for access to all companies. Super Admins are never limited.
+Everything is encrypted with AES-256-GCM on the server before it is sent to GitHub, so GitHub only ever holds unreadable data. Commit messages are generic and contain no personal details. PDFs are not stored: each one is generated when requested.
 
 ### How certificates work
 
-- A certificate is issued automatically when a record has a training date and a **passed, approved** assessment. Staff cannot record assessments.
-- Numbers look like `CERT-2026-00001`. They come from an atomic per-year counter, so they are never repeated, even after a record is deleted.
-- Issue date is today in `APP_TIMEZONE`; expiry is one year later. A certificate is valid through its expiry date.
-- The server marks expired certificates hourly with nobody logged in. `/verify` also checks the date itself on every request.
-- Renewing issues a new number and PDF. The previous certificate stays in the record's `certificate_history`, can still be downloaded, and verifies as replaced.
-- Changing a printed field regenerates the PDF under the same number.
-- Exports stop at 20,000 rows for Excel and 5,000 for PDF. The PDF states when it hits its limit.
-- QR codes link to `PORTAL_BASE_URL/verify/c/<random token>`, so **set `PORTAL_BASE_URL` to the real domain before issuing certificates**. QR codes on PDFs already handed out cannot change.
+- After saving a record, **Generate Certificate** issues the number (`OGAAL-2026-00001`), sets the issue date to today and the expiry to one year later, and captures the current signature.
+- It only works when the Assessment Result is **Passed**. The system records the assessor's result and never decides one.
+- Status is calculated each time from the expiry date: Active, Expiring Soon (30 days or fewer) or Expired. It is not stored, so it is never out of date.
+- An expired certificate can be generated again, which gives a new number. The old number is kept in the audit log, and numbers are never reused, even after a record is deleted.
+- The certificate shows only the fields intended for it. Phone number, blood group, date of birth and all assessment details never reach the PDF.
 
-### Database
+### Saving safely
 
-`employee_certificates` holds all employee, training, assessment and certificate data in one row per employee, including earlier certificates. `users` holds accounts. Four supporting tables hold no employee records: `user_sessions`, `password_resets`, `audit_logs` and `system_settings`. `schema_migrations` tracks applied migrations. To change the schema, add a new numbered file in `db/migrations/`.
-
-### Deployment
-
-The portal needs a **long-running Node.js 20.9+ process, a persistent disk and MySQL**, behind an HTTPS proxy such as nginx. Serverless hosting such as Vercel is not suitable: its disk does not persist, so photos and PDFs would be lost, and the hourly job and in-memory rate limits would not run reliably. Check that your Cloudways plan can run a long-lived Node.js process. If it can't, use a VPS.
-
-- Keep `STORAGE_DIR` and `BACKUP_DIR` outside the deployment folder, so a redeploy can't delete them, and never under `public/`.
-- Run one server process. Rate limits are held in memory, so cluster mode would weaken them.
-- Have the proxy set the real address, as nginx does with `proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;`, along with `Host`. Without a proxy, a client can forge `X-Forwarded-For`. Behind two proxies, set `TRUSTED_PROXY_COUNT=2`.
+Every save tells GitHub which version it was based on. If another change got there first, GitHub rejects it and the app re-applies the change to the newer data, so nothing is overwritten and no certificate number is issued twice. If two administrators edit the same employee, the second is told to reload instead of overwriting the first.
 
 ### Backup and recovery
 
-With `BACKUP_ENABLED=true` the server takes a backup every 24 hours. `npm run backup` runs one by hand. Each run writes a compressed database dump and a file storage archive to `BACKUP_DIR`, deletes those older than `BACKUP_RETENTION_DAYS` (default 30), and reports the result on the dashboard and in Settings, which warn if the last backup failed or is over 36 hours old.
+The first change of each day saves a copy of the data as it stood before that change. To restore one: download the file from `backups/` in the storage repository, then upload it over `data/employees.json.enc`, keeping that exact file name. Restoring needs the same `DATA_ENCRYPTION_KEY`.
 
-Backups hold personal and assessment data and are **not encrypted**. Copy them to separate, access-controlled storage: a backup on the same disk won't survive losing that disk. Never put them in Git.
+For a second copy, periodically clone or download the storage repository somewhere outside GitHub. The backups live in the same repository as the data, so they don't protect against losing that repository or GitHub account.
 
-To recover:
+### Limits to know about
 
-```bash
-gzip -dc ogaal-db-<timestamp>.sql.gz | mysql -u ogaal -p ogaal_portal
-tar -xzf ogaal-files-<timestamp>.tar.gz -C /path/to/STORAGE_DIR
-```
-
-Then start the app, sign in and open a certificate PDF to confirm. Practise this on a spare database from time to time.
-
-### Security notes
-
-- Passwords are hashed with scrypt. Session and reset tokens are stored only as hashes.
-- Every API route goes through `portalRoute` in `src/lib/portal/api.ts`, which checks origin, session and permission. Company limits are enforced in `getEmployee` and `buildWhere`.
-- Uploaded images are decoded and re-encoded, which rejects non-images and strips metadata. Files are served only through permission-checked routes.
-- Public verification reads a fixed list of columns that excludes private fields. Because certificate numbers run in sequence, someone can still look up names by guessing numbers, up to the limit of 30 checks per 10 minutes per address.
-- **This repository is public.** `.gitignore` excludes `.env*`, `storage/`, `backups/` and archives. Never commit real data, and keep `.env.example` to placeholders.
+- **Size.** Every save stores a new copy of the encrypted file in Git history, and encrypted data doesn't compress between versions. In tests, 20,000 made-up records took about 1.8 MB, but real records with longer notes will be larger. GitHub recommends keeping repositories under 1 GB, so with heavy daily use expect to need attention after some years. Watch the repository size under Settings. If it gets large, or you pass a few thousand employees with frequent changes, move to a real database.
+- **Deleted data stays in Git history**, encrypted. It is unreadable without the key, but it is not physically erased. If you need true erasure, this design can't provide it without rewriting the repository's history.
+- **Speed.** Each save takes about as long as a GitHub API call or two, so saves are slower than with a database. Searching is done in server memory and is fast.
+- **Rate limit.** GitHub allows 5,000 API calls per hour per token, which should be plenty for a small admin team. Unchanged reads don't count.
+- **Login attempts** are limited per server instance. On Vercel there can be several instances, so an attacker gets more tries than the stated limit. Use long, unique passwords.
+- **Logout** removes the session from the browser. A session copied before logout would keep working until it expires, up to 8 hours later. To end all sessions at once, change `ADMIN_SESSION_SECRET` and redeploy.
+- **Uploads** are limited to 4 MB per photo and 2 MB per signature or seal, because Vercel rejects larger requests.
 
 ### Testing
 
-`npm run test:portal` runs about 200 end-to-end checks over HTTP. It refuses to run unless `DB_NAME` ends in `_test`, and it needs an empty migrated database, a Super Admin, a running server and the variables listed at the top of `scripts/test-portal.cjs`.
+`npm run build && npm run test:admin` runs about 170 checks against the built app, including two servers writing at the same time. It uses a local stand-in for GitHub (`scripts/fake-github.cjs`) and made-up data, and never contacts real GitHub.
 
 ## Scripts
 
@@ -268,7 +228,5 @@ Then start the app, sign in and open a certificate PDF to confirm. Practise this
 | `npm run dev` / `build` / `start` | Develop / build / serve |
 | `npm run assets` | Build logo web files and favicons from the official logo |
 | `npm run og` | Rebuild the social sharing image |
-| `npm run db:migrate` | Apply database migrations |
-| `npm run db:create-admin` | Create a Super Admin |
-| `npm run backup` | Back up the database and private files |
-| `npm run test:portal` | End-to-end portal tests (test database only) |
+| `npm run admin:setup` | Create an admin login and the secret keys |
+| `npm run test:admin` | End-to-end admin tests (local stand-in for GitHub, made-up data) |
