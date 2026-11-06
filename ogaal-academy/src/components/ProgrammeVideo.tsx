@@ -69,7 +69,7 @@ export function ProgrammeVideo() {
         role="region"
         aria-label="Programme overview player"
       >
-        <TrainingScene className="absolute inset-0 !rounded-none !shadow-none [&>svg]:h-full [&>svg]:w-full" />
+        <TrainingScene className="absolute inset-0 !rounded-none !shadow-none [&>svg]:h-[80%] [&>svg]:w-full" />
 
         {/* chapter overlay */}
         <div key={i} className="chapter-in absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy via-navy/85 to-transparent px-5 pt-16 pb-14 sm:px-7 sm:pt-20">
